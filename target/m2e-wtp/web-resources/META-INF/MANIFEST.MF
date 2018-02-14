@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Built-By: ilkaygunel
+Build-Jdk: 9.0.1
+Implementation-Title: MemberRestAPIProject
+Implementation-Version: 1.0.0
+Implementation-Vendor-Id: com.ilkaygunel
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/MemberRestAP
+ IProject/
+Created-By: Maven Integration for Eclipse
+
