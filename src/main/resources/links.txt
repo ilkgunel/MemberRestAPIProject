@@ -1,1 +1,2 @@
-http://localhost:8080/MemberRestAPIProject/saveMember
+http://localhost:8080/MemberRestAPIProject/saveOneMember
+http://localhost:8080/MemberRestAPIProject/saveBulkMember
