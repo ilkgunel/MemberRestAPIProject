@@ -15,6 +15,7 @@ import com.ilkaygunel.pojo.MemberRegisterPojo;
 import com.ilkaygunel.service.MemberPostService;
 
 @RestController
+@RequestMapping("/memberPostWebServiceEndPoint")
 public class MemberSaveWebServiceEndPoint {
 	@Autowired
 	private MemberPostService memberPostService;

@@ -16,4 +16,12 @@ public class MemberGetService {
 	public List<Member> getAllMemberList() {
 		return (List<Member>) memberRepository.findAll();
 	}
+
+	public Member getMemberViaId(long id) {
+		return memberRepository.findOne(id);
+	}
+
+	public Member getMemberViaFirstName(String firstName) {
+		return memberRepository.findByFirstName(firstName);
+	}
 }

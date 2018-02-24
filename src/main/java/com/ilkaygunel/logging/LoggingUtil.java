@@ -9,11 +9,19 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class LoggingUtil {
-	public static Logger getLoggerForMemberSaving(Class<?> clazz) {
+	public Logger getLoggerForMemberSaving(Class<?> clazz) {
+		return getLogger("./memberSaving.log", clazz);
+	}
+
+	public Logger getLoggerForMemberGetting(Class<?> clazz) {
+		return getLogger("./memberGetting.log", clazz);
+	}
+
+	private Logger getLogger(String logFileName, Class<?> clazz) {
 		LogManager.getLogManager().reset();
 		Logger logger = Logger.getLogger(clazz.getName());
 		try {
-			Handler fileHandler = new FileHandler("./memberSaving.log");
+			Handler fileHandler = new FileHandler(logFileName);
 			Formatter simpleFormatter = new SimpleFormatter();
 			fileHandler.setFormatter(simpleFormatter);
 			logger.addHandler(fileHandler);

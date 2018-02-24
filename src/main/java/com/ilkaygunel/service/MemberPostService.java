@@ -18,7 +18,7 @@ public class MemberPostService {
 	private MemberRepository memberRepository;
 
 	public void addOneMember(Member member) {
-		Logger LOGGER = LoggingUtil.getLoggerForMemberSaving(this.getClass());
+		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "One member adding method is running!");
 			memberRepository.save(member);
@@ -30,7 +30,7 @@ public class MemberPostService {
 	}
 
 	public void addBulkMember(List<Member> memberList) {
-		Logger LOGGER = LoggingUtil.getLoggerForMemberSaving(this.getClass());
+		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "Bulk member adding method is running!");
 			memberRepository.save(memberList);
