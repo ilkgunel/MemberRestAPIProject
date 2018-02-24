@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.pojo.MemberRegisterPojo;
-import com.ilkaygunel.service.MemberService;
+import com.ilkaygunel.service.MemberPostService;
 
 @RestController
 public class MemberSaveWebServiceEndPoint {
 	@Autowired
-	private MemberService memberService;
+	private MemberPostService memberPostService;
 
 	@RequestMapping(value = "/saveOneMember", method = RequestMethod.POST)
 	public ResponseEntity<MemberRegisterPojo> saveOneMember(@RequestBody Member member) {
 		MemberRegisterPojo memberRegisterPojo = new MemberRegisterPojo();
 		memberRegisterPojo.setMember(member);
 		try {
-			memberService.addMember(member);
+			memberPostService.addOneMember(member);
 			memberRegisterPojo.setRegistirationResult("Successfull");
 		} catch (Exception ex) {
 			memberRegisterPojo.setRegistirationResult("Failed! The problem is:" + ex);
@@ -38,7 +38,7 @@ public class MemberSaveWebServiceEndPoint {
 		MemberRegisterPojo memberRegisterPojo = new MemberRegisterPojo();
 		memberRegisterPojo.setMemberList(memberList);
 		try {
-			memberService.addBulkMember(memberList);
+			memberPostService.addBulkMember(memberList);
 			memberRegisterPojo.setRegistirationResult("Successfull!");
 		} catch (Exception e) {
 			memberRegisterPojo.setRegistirationResult("Fail! The problem is:" + e);

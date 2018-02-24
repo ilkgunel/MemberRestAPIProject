@@ -15,7 +15,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return String.format("Customer[id=%d, firstName='%s', lastName='%s']", id, firstName, lastName);
+		return String.format("Member [id=%d, firstName='%s', lastName='%s']", id, firstName, lastName);
 	}
 
 	public Long getId() {
