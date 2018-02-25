@@ -1,0 +1,8 @@
+git rm --cached .project
+git rm --cached .classpath
+
+git push -u origin branchname
+git push origin master
+
+git commit -m "message"
+git add . ( for all files)
