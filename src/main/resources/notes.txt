@@ -1,5 +1,6 @@
 git rm --cached .project
 git rm --cached .classpath
+git rm -r --cached .settings/
 
 git push -u origin branchname
 git push origin master
