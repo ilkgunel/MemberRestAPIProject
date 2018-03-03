@@ -1,1 +1,1 @@
-insert into memberrestapiproject.member(first_name,last_name) values('ilkay','günel');
+insert into member(first_name,last_name) values('ilkay','günel');

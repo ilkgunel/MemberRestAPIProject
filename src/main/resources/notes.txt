@@ -6,3 +6,6 @@ git push origin master
 
 git commit -m "message"
 git add . ( for all files)
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"

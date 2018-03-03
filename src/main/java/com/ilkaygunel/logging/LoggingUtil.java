@@ -17,6 +17,10 @@ public class LoggingUtil {
 		return getLogger("./memberGetting.log", clazz);
 	}
 
+	public Logger getLoggerForMemberUpdating(Class<?> clazz) {
+		return getLogger("./memberGetting.log", clazz);
+	}
+
 	private Logger getLogger(String logFileName, Class<?> clazz) {
 		LogManager.getLogManager().reset();
 		Logger logger = Logger.getLogger(clazz.getName());

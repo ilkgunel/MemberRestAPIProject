@@ -1,4 +1,0 @@
-http://localhost:8080/MemberRestAPIProject/saveOneMember
-http://localhost:8080/MemberRestAPIProject/saveBulkMember
-http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getMemberViaFirstName?firstName=ilkay
-http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getAllMembers
