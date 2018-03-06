@@ -12,6 +12,7 @@ public class Member {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	private String role;
 
 	@Override
 	public String toString() {
@@ -42,4 +43,11 @@ public class Member {
 		this.lastName = lastName;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

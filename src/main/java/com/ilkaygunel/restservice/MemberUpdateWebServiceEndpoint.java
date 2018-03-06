@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ilkaygunel.entities.Member;
-import com.ilkaygunel.pojo.MemberRegisterPojo;
+import com.ilkaygunel.pojo.MemberRegisterOrUpdatePojo;
 import com.ilkaygunel.service.MemberUpdateService;
 
 @RestController
@@ -22,29 +22,29 @@ public class MemberUpdateWebServiceEndpoint {
 	private MemberUpdateService memberUpdateServices;
 
 	@RequestMapping(value = "/updateOneMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberRegisterPojo> updateOneMember(@RequestBody Member member) {
-		MemberRegisterPojo memberRegisterPojo = new MemberRegisterPojo();
-		memberRegisterPojo.setMember(member);
+	private ResponseEntity<MemberRegisterOrUpdatePojo> updateOneMember(@RequestBody Member member) {
+		MemberRegisterOrUpdatePojo memberRegisterOrUpdatePojo = new MemberRegisterOrUpdatePojo();
+		memberRegisterOrUpdatePojo.setMember(member);
 		try {
 			memberUpdateServices.updateOneMember(member);
-			memberRegisterPojo.setRegistirationResult("Successfull");
+			memberRegisterOrUpdatePojo.setRegistirationResult("Successfull");
 		} catch (Exception ex) {
-			memberRegisterPojo.setRegistirationResult("Failed! The problem is:" + ex);
+			memberRegisterOrUpdatePojo.setRegistirationResult("Failed! The problem is:" + ex);
 		}
-		return new ResponseEntity<MemberRegisterPojo>(memberRegisterPojo, HttpStatus.OK);
+		return new ResponseEntity<MemberRegisterOrUpdatePojo>(memberRegisterOrUpdatePojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateBulkMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberRegisterPojo> updateBulkMember(@RequestBody List<Member> memberListForUpdate) {
-		MemberRegisterPojo memberRegisterPojo = new MemberRegisterPojo();
-		memberRegisterPojo.setMemberList(memberListForUpdate);
+	private ResponseEntity<MemberRegisterOrUpdatePojo> updateBulkMember(@RequestBody List<Member> memberListForUpdate) {
+		MemberRegisterOrUpdatePojo memberRegisterOrUpdatePojo = new MemberRegisterOrUpdatePojo();
+		memberRegisterOrUpdatePojo.setMemberList(memberListForUpdate);
 		try {
 			memberUpdateServices.updateBulkMember(memberListForUpdate);
-			memberRegisterPojo.setRegistirationResult("Successfull");
+			memberRegisterOrUpdatePojo.setRegistirationResult("Successfull");
 		} catch (Exception e) {
-			memberRegisterPojo.setRegistirationResult("Failed! The problem is:" + e);
+			memberRegisterOrUpdatePojo.setRegistirationResult("Failed! The problem is:" + e);
 		}
-		return new ResponseEntity<MemberRegisterPojo>(memberRegisterPojo, HttpStatus.OK);
+		return new ResponseEntity<MemberRegisterOrUpdatePojo>(memberRegisterOrUpdatePojo, HttpStatus.OK);
 	}
 
 }

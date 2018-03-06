@@ -2,11 +2,14 @@ package com.ilkaygunel.pojo;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.ilkaygunel.entities.Member;
 
-public class MemberRegisterPojo {
-	private Member member;// use for one member save
-	private List<Member> memberList;
+@JsonInclude(Include.NON_NULL)
+public class MemberRegisterOrUpdatePojo {
+	private Member member;// use for one member save or update
+	private List<Member> memberList;// use for bulk member save or update
 	private String registirationResult;
 
 	public String getRegistirationResult() {
