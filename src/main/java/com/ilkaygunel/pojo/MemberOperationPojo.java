@@ -7,17 +7,18 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.ilkaygunel.entities.Member;
 
 @JsonInclude(Include.NON_NULL)
-public class MemberRegisterOrUpdatePojo {
+public class MemberOperationPojo {
 	private Member member;// use for one member save or update
 	private List<Member> memberList;// use for bulk member save or update
-	private String registirationResult;
+	private String result;
+	private String errorCode;// using for only exceptions
 
-	public String getRegistirationResult() {
-		return registirationResult;
+	public String getResult() {
+		return result;
 	}
 
-	public void setRegistirationResult(String registirationResult) {
-		this.registirationResult = registirationResult;
+	public void setResult(String result) {
+		this.result = result;
 	}
 
 	public Member getMember() {
@@ -34,5 +35,13 @@ public class MemberRegisterOrUpdatePojo {
 
 	public void setMemberList(List<Member> memberList) {
 		this.memberList = memberList;
+	}
+
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
 }

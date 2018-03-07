@@ -18,7 +18,11 @@ public class LoggingUtil {
 	}
 
 	public Logger getLoggerForMemberUpdating(Class<?> clazz) {
-		return getLogger("./memberGetting.log", clazz);
+		return getLogger("./memberUpdating.log", clazz);
+	}
+	
+	public Logger getLoggerForMemberDeleting(Class<?> clazz) {
+		return getLogger("./memberDeleting.log", clazz);
 	}
 
 	private Logger getLogger(String logFileName, Class<?> clazz) {

@@ -7,15 +7,13 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.logging.LoggingUtil;
 import com.ilkaygunel.repository.MemberRepository;
 
 @Service
 public class MemberPostService {
-
-	private static final String ROLE_USER = "ROLE_USER";
-	private static final String ROLE_ADMIN = "ROLE_ADMIN";
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -24,7 +22,7 @@ public class MemberPostService {
 		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "One member adding method is running!");
-			member.setRole(ROLE_USER);
+			member.setRole(ConstantFields.ROLE_USER);
 			memberRepository.save(member);
 			LOGGER.log(Level.INFO, "Member saving is successfull. Member info is:" + member);
 		} catch (Exception ex) {
@@ -37,7 +35,7 @@ public class MemberPostService {
 		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "One member adding method is running!");
-			member.setRole(ROLE_ADMIN);
+			member.setRole(ConstantFields.ROLE_ADMIN);
 			memberRepository.save(member);
 			LOGGER.log(Level.INFO, "Member saving is successfull. Member info is:" + member);
 		} catch (Exception ex) {
@@ -51,7 +49,7 @@ public class MemberPostService {
 		try {
 			LOGGER.log(Level.INFO, "Bulk member adding method is running!");
 			for (Member member : memberList) {
-				member.setRole(ROLE_USER);
+				member.setRole(ConstantFields.ROLE_USER);
 			}
 			memberRepository.save(memberList);
 			LOGGER.log(Level.INFO, "Bulk member saving is successfull. Members info are:" + memberList);
@@ -65,7 +63,7 @@ public class MemberPostService {
 		try {
 			LOGGER.log(Level.INFO, "Bulk member adding method is running!");
 			for (Member member : memberList) {
-				member.setRole(ROLE_ADMIN);
+				member.setRole(ConstantFields.ROLE_ADMIN);
 			}
 			memberRepository.save(memberList);
 			LOGGER.log(Level.INFO, "Bulk member saving is successfull. Members info are:" + memberList);
