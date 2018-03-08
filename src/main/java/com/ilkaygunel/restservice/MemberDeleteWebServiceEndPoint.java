@@ -22,4 +22,10 @@ public class MemberDeleteWebServiceEndPoint {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteOneUserMember(memberId);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/deleteOneAdminMember/{memberid}", method = RequestMethod.DELETE)
+	public ResponseEntity<MemberOperationPojo> deleteOneAdminMember(@PathVariable("memberid") long memberId) {
+		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteOneAdminMember(memberId);
+		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+	}
 }
