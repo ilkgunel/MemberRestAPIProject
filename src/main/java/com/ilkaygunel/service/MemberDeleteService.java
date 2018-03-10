@@ -1,5 +1,6 @@
 package com.ilkaygunel.service;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,6 +66,63 @@ public class MemberDeleteService {
 			LOGGER.log(Level.SEVERE, "An error occured while deleting admin member. Error is:" + e.getMessage());
 			memberOperationPojo.setErrorCode(e.getErrorCode());
 			memberOperationPojo.setResult(e.getErrorMessage());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "An error occured while deleting user member. Error is:" + e.getMessage());
+			memberOperationPojo.setResult(e.getMessage());
+		}
+		return memberOperationPojo;
+	}
+
+	public MemberOperationPojo deleteBulkUserMember(List<Member> memberListForDeleting) {
+		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+		Logger LOGGER = new LoggingUtil().getLoggerForMemberDeleting(this.getClass());
+		try {
+			LOGGER.log(Level.INFO, "Bulk user member deleting method is running!");
+			for (Member member : memberListForDeleting) {
+				Member memberForDelete = memberRepository.findOne(member.getId());
+				if (memberForDelete == null) {
+					throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
+				}
+			}
+			memberRepository.delete(memberListForDeleting);
+			memberOperationPojo.setResult(
+					"Bulk user member deleting is successfull. Deleted member info is:" + memberListForDeleting);
+			LOGGER.log(Level.INFO,
+					"Bulk user member deleting is successfull. Deleted member info is:" + memberListForDeleting);
+		} catch (CustomException e) {
+			LOGGER.log(Level.SEVERE, "An error occured while deleting user member. Error is:" + e.getMessage());
+			memberOperationPojo.setErrorCode(e.getErrorCode());
+			memberOperationPojo.setResult(e.getErrorMessage());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "An error occured while deleting user member. Error is:" + e.getMessage());
+			memberOperationPojo.setResult(e.getMessage());
+		}
+		return memberOperationPojo;
+	}
+
+	public MemberOperationPojo deleteBulkAdminMember(List<Member> memberListForDeleting) {
+		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+		Logger LOGGER = new LoggingUtil().getLoggerForMemberDeleting(this.getClass());
+		try {
+			LOGGER.log(Level.INFO, "Bulk admin member deleting method is running!");
+			for (Member member : memberListForDeleting) {
+				Member memberForDelete = memberRepository.findOne(member.getId());
+				if (memberForDelete == null) {
+					throw new CustomException(ErrorCodes.ERROR_02, environment.getProperty(ErrorCodes.ERROR_02));
+				}
+			}
+			memberRepository.delete(memberListForDeleting);
+			memberOperationPojo.setResult(
+					"Bulk admin member deleting is successfull. Deleted member info is:" + memberListForDeleting);
+			LOGGER.log(Level.INFO,
+					"Bulk admin member deleting is successfull. Deleted member info is:" + memberListForDeleting);
+		} catch (CustomException e) {
+			LOGGER.log(Level.SEVERE, "An error occured while deleting admin member. Error is:" + e.getMessage());
+			memberOperationPojo.setErrorCode(e.getErrorCode());
+			memberOperationPojo.setResult(e.getErrorMessage());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, "An error occured while deleting admin member. Error is:" + e.getMessage());
+			memberOperationPojo.setResult(e.getMessage());
 		}
 		return memberOperationPojo;
 	}
