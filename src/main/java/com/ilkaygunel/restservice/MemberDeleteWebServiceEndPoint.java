@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.service.MemberDeleteService;
+import com.ilkaygunel.wrapper.MemberIdWrapp;
 
 @RestController
 @RequestMapping("/memberDeleteWebServiceEndPoint")
@@ -34,14 +33,14 @@ public class MemberDeleteWebServiceEndPoint {
 	}
 
 	@RequestMapping(value = "/deleteBulkUserMember", method = RequestMethod.DELETE)
-	public ResponseEntity<MemberOperationPojo> deleteBulkUserMember(@RequestBody List<Member> memberListForDeleting) {
-		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteBulkUserMember(memberListForDeleting);
+	public ResponseEntity<MemberOperationPojo> deleteBulkUserMember(@RequestBody List<MemberIdWrapp> memberIdList) {
+		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteBulkUserMember(memberIdList);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/deleteBulkAdminMember", method = RequestMethod.DELETE)
-	public ResponseEntity<MemberOperationPojo> deleteBulkAdminMember(@RequestBody List<Member> memberListForDeleting) {
-		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteBulkAdminMember(memberListForDeleting);
+	public ResponseEntity<MemberOperationPojo> deleteBulkAdminMember(@RequestBody List<MemberIdWrapp> memberIdList) {
+		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteBulkAdminMember(memberIdList);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 }

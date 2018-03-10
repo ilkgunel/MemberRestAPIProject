@@ -15,6 +15,7 @@ import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.logging.LoggingUtil;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.repository.MemberRepository;
+import com.ilkaygunel.wrapper.MemberIdWrapp;
 
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
 @Service
@@ -73,22 +74,22 @@ public class MemberDeleteService {
 		return memberOperationPojo;
 	}
 
-	public MemberOperationPojo deleteBulkUserMember(List<Member> memberListForDeleting) {
+	public MemberOperationPojo deleteBulkUserMember(List<MemberIdWrapp> memberIdList) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		Logger LOGGER = new LoggingUtil().getLoggerForMemberDeleting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "Bulk user member deleting method is running!");
-			for (Member member : memberListForDeleting) {
-				Member memberForDelete = memberRepository.findOne(member.getId());
+			for (MemberIdWrapp memberIdWrapp : memberIdList) {
+				Member memberForDelete = memberRepository.findOne(memberIdWrapp.getId());
 				if (memberForDelete == null) {
 					throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
 				}
+				memberRepository.delete(memberIdWrapp.getId());
+				memberOperationPojo.setResult(memberOperationPojo.getResult() + " "
+						+ "Bulk user member deleting is successfull. Deleted member info is:" + memberForDelete);
+				LOGGER.log(Level.INFO,
+						"Bulk user member deleting is successfull. Deleted member info is:" + memberForDelete);
 			}
-			memberRepository.delete(memberListForDeleting);
-			memberOperationPojo.setResult(
-					"Bulk user member deleting is successfull. Deleted member info is:" + memberListForDeleting);
-			LOGGER.log(Level.INFO,
-					"Bulk user member deleting is successfull. Deleted member info is:" + memberListForDeleting);
 		} catch (CustomException e) {
 			LOGGER.log(Level.SEVERE, "An error occured while deleting user member. Error is:" + e.getMessage());
 			memberOperationPojo.setErrorCode(e.getErrorCode());
@@ -100,22 +101,22 @@ public class MemberDeleteService {
 		return memberOperationPojo;
 	}
 
-	public MemberOperationPojo deleteBulkAdminMember(List<Member> memberListForDeleting) {
+	public MemberOperationPojo deleteBulkAdminMember(List<MemberIdWrapp> memberIdList) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		Logger LOGGER = new LoggingUtil().getLoggerForMemberDeleting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "Bulk admin member deleting method is running!");
-			for (Member member : memberListForDeleting) {
-				Member memberForDelete = memberRepository.findOne(member.getId());
+			for (MemberIdWrapp memberIdWrapp : memberIdList) {
+				Member memberForDelete = memberRepository.findOne(memberIdWrapp.getId());
 				if (memberForDelete == null) {
-					throw new CustomException(ErrorCodes.ERROR_02, environment.getProperty(ErrorCodes.ERROR_02));
+					throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
 				}
+				memberRepository.delete(memberIdWrapp.getId());
+				memberOperationPojo.setResult(memberOperationPojo.getResult() + " "
+						+ "Bulk admin member deleting is successfull. Deleted member info is:" + memberForDelete);
+				LOGGER.log(Level.INFO,
+						"Bulk admin member deleting is successfull. Deleted member info is:" + memberForDelete);
 			}
-			memberRepository.delete(memberListForDeleting);
-			memberOperationPojo.setResult(
-					"Bulk admin member deleting is successfull. Deleted member info is:" + memberListForDeleting);
-			LOGGER.log(Level.INFO,
-					"Bulk admin member deleting is successfull. Deleted member info is:" + memberListForDeleting);
 		} catch (CustomException e) {
 			LOGGER.log(Level.SEVERE, "An error occured while deleting admin member. Error is:" + e.getMessage());
 			memberOperationPojo.setErrorCode(e.getErrorCode());
@@ -126,4 +127,5 @@ public class MemberDeleteService {
 		}
 		return memberOperationPojo;
 	}
+
 }

@@ -12,6 +12,10 @@ Links:
 		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateOneMember
 		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateBulkMember
 	For Deleting:
+		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneUserMember/2
+		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneAdminMember/5
+		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteBulkUSerMember
+		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteBulkAdminMember
 		
 Sample JSON's:
 One Member Save: {"firstName": "ilkay","lastName": "deneme"}
@@ -23,3 +27,5 @@ Bulk Member Save:[
 				  ]
 
 One Member Update: {"id":1,"firstName": "ilkay","lastName": "deneme"}
+
+Bulke Member Delete: [{"id": 6},{"id": 7}]
