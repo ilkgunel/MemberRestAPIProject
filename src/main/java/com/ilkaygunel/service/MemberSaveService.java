@@ -5,90 +5,110 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
-import com.ilkaygunel.logging.LoggingUtil;
+import com.ilkaygunel.exception.CustomException;
+import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.repository.MemberRepository;
+import com.ilkaygunel.util.LoggingUtil;
 
+@PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
+@PropertySource(ignoreResourceNotFound = true, value = "classpath:messageTexts.properties")
 @Service
 public class MemberSaveService {
 
 	@Autowired
 	private MemberRepository memberRepository;
 
+	@Autowired
+	private Environment environment;
+
 	public MemberOperationPojo addOneUserMember(Member member) {
-		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
-		try {
-			LOGGER.log(Level.INFO, "One member adding method is running!");
-			member.setRole(ConstantFields.ROLE_USER);
-			memberRepository.save(member);
-			memberOperationPojo.setResult("One user member saving is successfull. Member info is:" + member);
-			LOGGER.log(Level.INFO, "One user member saving is successfull. Member info is:" + member);
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "An error occured while deleting user member. Error is:" + e.getMessage());
-			memberOperationPojo.setResult(e.getMessage());
-		}
+		member.setRole(ConstantFields.ROLE_USER);
+		MemberOperationPojo memberOperationPojo = addOneMember(member);
 		return memberOperationPojo;
 
 	}
 
 	public MemberOperationPojo addOneAdminMember(Member member) {
-		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
-		try {
-			LOGGER.log(Level.INFO, "One member adding method is running!");
-			member.setRole(ConstantFields.ROLE_ADMIN);
-			memberRepository.save(member);
-			memberOperationPojo.setResult("One admin member saving is successfull. Member info is:" + member);
-			LOGGER.log(Level.INFO, "One admin member saving is successfull. Member info is:" + member);
-		} catch (Exception ex) {
-			LOGGER.log(Level.SEVERE, "An error occured while saving member. Error is:" + ex.getMessage());
-			memberOperationPojo.setResult(ex.getMessage());
-		}
-		return memberOperationPojo;
+		member.setRole(ConstantFields.ROLE_ADMIN);
+		return addOneMember(member);
 	}
 
 	public MemberOperationPojo addBulkUserMember(List<Member> memberList) {
+		for (Member member : memberList) {
+			member.setRole(ConstantFields.ROLE_USER);
+		}
+		return addBulkMember(memberList);
+	}
+
+	public MemberOperationPojo addBulkAdminMember(List<Member> memberList) {
+		for (Member member : memberList) {
+			member.setRole(ConstantFields.ROLE_ADMIN);
+		}
+		return addBulkMember(memberList);
+	}
+
+	public MemberOperationPojo addOneMember(Member member) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
 		try {
-			LOGGER.log(Level.INFO, "Bulk member adding method is running!");
-			for (Member member : memberList) {
-				member.setRole(ConstantFields.ROLE_USER);
-			}
-			memberRepository.save(memberList);
-			memberOperationPojo.setResult(
-					"Bulk user member saving is successfull. Informations of user members are:" + memberList);
-			LOGGER.log(Level.INFO,
-					"Bulk user member saving is successfull. Informations of user members are:" + memberList);
-		} catch (Exception ex) {
-			LOGGER.log(Level.SEVERE, "An error occured while saving member. Error is:" + ex.getMessage());
-			memberOperationPojo.setResult(ex.getMessage());
+			LOGGER.log(Level.INFO, environment.getProperty(member.getRole() + "_memberAddingMethod"));
+			checkMemberFields(member);
+			memberRepository.save(member);
+			memberOperationPojo
+					.setResult(environment.getProperty(member.getRole() + "_memberAddingSuccessfull") + member);
+			LOGGER.log(Level.INFO, environment.getProperty(member.getRole() + "_memberAddingSuccessfull") + member);
+		} catch (CustomException e) {
+			LOGGER.log(Level.SEVERE, environment.getProperty(member.getRole() + "_memberAddingFaled") + e.getErrorCode()
+					+ " " + e.getErrorMessage());
+			memberOperationPojo.setErrorCode(e.getErrorCode());
+			memberOperationPojo.setResult(e.getErrorMessage());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, environment.getProperty(member.getRole() + "_memberAddingFaled") + e.getMessage());
+			memberOperationPojo.setResult(e.getMessage());
 		}
 		return memberOperationPojo;
 	}
 
-	public MemberOperationPojo addBulkAdminMember(List<Member> memberList) {
+	public MemberOperationPojo addBulkMember(List<Member> memberList) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
 		try {
-			LOGGER.log(Level.INFO, "Bulk member adding method is running!");
+			LOGGER.log(Level.INFO, environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingMethod"));
 			for (Member member : memberList) {
-				member.setRole(ConstantFields.ROLE_ADMIN);
+				checkMemberFields(member);
+				memberRepository.save(member);
 			}
-			memberRepository.save(memberList);
 			memberOperationPojo.setResult(
-					"Bulk admin member saving is successfull. Informations of admin members are:" + memberList);
+					environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingSuccessfull") + memberList);
 			LOGGER.log(Level.INFO,
-					"Bulk admin member saving is successfull. Informations of admin members are:" + memberList);
-		} catch (Exception ex) {
-			LOGGER.log(Level.SEVERE, "An error occured while saving member. Error is:" + ex.getMessage());
-			memberOperationPojo.setResult(ex.getMessage());
+					environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingSuccessfull") + memberList);
+		} catch (CustomException e) {
+			LOGGER.log(Level.SEVERE, environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingFaled")
+					+ e.getErrorCode() + " " + e.getErrorMessage());
+			memberOperationPojo.setErrorCode(e.getErrorCode());
+			memberOperationPojo.setResult(e.getErrorMessage());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE,
+					environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingFaled") + e.getMessage());
+			memberOperationPojo.setResult(e.getMessage());
 		}
 		return memberOperationPojo;
 	}
+
+	public void checkMemberFields(Member member) throws CustomException {
+		if (ObjectUtils.isEmpty(member.getEmail())) {
+			throw new CustomException(ErrorCodes.ERROR_05, environment.getProperty(ErrorCodes.ERROR_05));
+		} else if (memberRepository.findByEmail(member.getEmail()) != null) {
+			throw new CustomException(ErrorCodes.ERROR_06, environment.getProperty(ErrorCodes.ERROR_06));
+		}
+	}
+
 }

@@ -9,12 +9,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.exception.ErrorCodes;
-import com.ilkaygunel.logging.LoggingUtil;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.repository.MemberRepository;
+import com.ilkaygunel.util.LoggingUtil;
 import com.ilkaygunel.wrapper.MemberIdWrapp;
 
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
@@ -34,6 +35,8 @@ public class MemberDeleteService {
 			Member memberForDelete = memberRepository.findOne(memberId);
 			if (memberForDelete == null) {
 				throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
+			} else if (!ConstantFields.ROLE_USER.equals(memberForDelete.getRole())) {
+				throw new CustomException(ErrorCodes.ERROR_03, environment.getProperty(ErrorCodes.ERROR_03));
 			}
 			memberRepository.delete(memberId);
 			memberOperationPojo.setResult("One user member deleting is successfull. Member info is:" + memberForDelete);
@@ -58,6 +61,8 @@ public class MemberDeleteService {
 			Member memberForDelete = memberRepository.findOne(memberId);
 			if (memberForDelete == null) {
 				throw new CustomException(ErrorCodes.ERROR_02, environment.getProperty(ErrorCodes.ERROR_02));
+			} else if (!ConstantFields.ROLE_ADMIN.equals(memberForDelete.getRole())) {
+				throw new CustomException(ErrorCodes.ERROR_04, environment.getProperty(ErrorCodes.ERROR_04));
 			}
 			memberRepository.delete(memberId);
 			memberOperationPojo
@@ -83,6 +88,8 @@ public class MemberDeleteService {
 				Member memberForDelete = memberRepository.findOne(memberIdWrapp.getId());
 				if (memberForDelete == null) {
 					throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
+				} else if (!ConstantFields.ROLE_USER.equals(memberForDelete.getRole())) {
+					throw new CustomException(ErrorCodes.ERROR_03, environment.getProperty(ErrorCodes.ERROR_03));
 				}
 				memberRepository.delete(memberIdWrapp.getId());
 				memberOperationPojo.setResult(memberOperationPojo.getResult() + " "
@@ -110,6 +117,8 @@ public class MemberDeleteService {
 				Member memberForDelete = memberRepository.findOne(memberIdWrapp.getId());
 				if (memberForDelete == null) {
 					throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
+				} else if (!ConstantFields.ROLE_ADMIN.equals(memberForDelete.getRole())) {
+					throw new CustomException(ErrorCodes.ERROR_04, environment.getProperty(ErrorCodes.ERROR_04));
 				}
 				memberRepository.delete(memberIdWrapp.getId());
 				memberOperationPojo.setResult(memberOperationPojo.getResult() + " "

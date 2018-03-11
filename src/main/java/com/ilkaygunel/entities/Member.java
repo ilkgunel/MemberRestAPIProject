@@ -12,11 +12,13 @@ public class Member {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	private String email;
 	private String role;
 
 	@Override
 	public String toString() {
-		return String.format("Member [id=%d, firstName='%s', lastName='%s']", id, firstName, lastName);
+		return String.format("Member [id=%d, firstName='%s', lastName='%s', email='%s',role='%s']", id, firstName,
+				lastName, email, role);
 	}
 
 	public Long getId() {
@@ -49,5 +51,13 @@ public class Member {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

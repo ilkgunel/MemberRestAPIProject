@@ -1,4 +1,4 @@
-package com.ilkaygunel.logging;
+package com.ilkaygunel.util;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;

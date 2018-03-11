@@ -8,4 +8,6 @@ import com.ilkaygunel.entities.Member;
 @Repository
 public interface MemberRepository extends CrudRepository<Member, Long> {
 	Member findByFirstName(String firstName);
+
+	Member findByEmail(String email);
 }
