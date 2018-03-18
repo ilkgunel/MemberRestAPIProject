@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -61,6 +62,9 @@ public class MemberSaveService {
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(member.getRole() + "_memberAddingMethod"));
 			checkMemberFields(member);
+			member.setPassword(getHashedPassword(member.getPassword()));
+			member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
+									// required!
 			memberRepository.save(member);
 			memberOperationPojo
 					.setResult(environment.getProperty(member.getRole() + "_memberAddingSuccessfull") + member);
@@ -84,6 +88,9 @@ public class MemberSaveService {
 			LOGGER.log(Level.INFO, environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingMethod"));
 			for (Member member : memberList) {
 				checkMemberFields(member);
+				member.setPassword(getHashedPassword(member.getPassword()));
+				member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
+				// required!
 				memberRepository.save(member);
 			}
 			memberOperationPojo.setResult(
@@ -109,6 +116,10 @@ public class MemberSaveService {
 		} else if (memberRepository.findByEmail(member.getEmail()) != null) {
 			throw new CustomException(ErrorCodes.ERROR_06, environment.getProperty(ErrorCodes.ERROR_06));
 		}
+	}
+
+	private String getHashedPassword(String rawPassword) {
+		return new BCryptPasswordEncoder().encode(rawPassword);
 	}
 
 }

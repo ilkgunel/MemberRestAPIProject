@@ -14,6 +14,8 @@ public class Member {
 	private String lastName;
 	private String email;
 	private String role;
+	private boolean enabled;
+	private String password;
 
 	@Override
 	public String toString() {
@@ -59,5 +61,21 @@ public class Member {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

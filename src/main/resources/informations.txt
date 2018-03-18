@@ -18,7 +18,7 @@ Links:
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteBulkAdminMember
 		
 Sample JSON's:
-One Member Save: {"firstName": "ilkay","lastName": "deneme"}
+One Member Save: {"firstName": "recep","lastName": "baltaş","email":"recep.baltas@technopat.com.tr","password":"TEST1234"}
 
 Bulk Member Save:[
 					{"firstName": "Merve","lastName": "Ucuzova"},
