@@ -43,16 +43,12 @@ public class MemberSaveService {
 	}
 
 	public MemberOperationPojo addBulkUserMember(List<Member> memberList) {
-		for (Member member : memberList) {
-			member.setRole(ConstantFields.ROLE_USER);
-		}
+		memberList.forEach(member -> member.setRole(ConstantFields.ROLE_USER));
 		return addBulkMember(memberList);
 	}
 
 	public MemberOperationPojo addBulkAdminMember(List<Member> memberList) {
-		for (Member member : memberList) {
-			member.setRole(ConstantFields.ROLE_ADMIN);
-		}
+		memberList.forEach(member -> member.setRole(ConstantFields.ROLE_ADMIN));
 		return addBulkMember(memberList);
 	}
 
