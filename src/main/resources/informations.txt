@@ -9,8 +9,10 @@ Links:
 		http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getMemberViaFirstName?firstName=ilkay
 		http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getMemberViaId/1
 	For Updating:
-		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateOneMember
-		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateBulkMember
+		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateOneUserMember
+		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateOneAdminMember
+		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateBulkUserMember
+		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateBulkAdminMember
 	For Deleting:
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneUserMember/2
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneAdminMember/5
@@ -18,14 +20,17 @@ Links:
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteBulkAdminMember
 		
 Sample JSON's:
-One Member Save: {"firstName": "recep","lastName": "baltaş","email":"recep.baltas@technopat.com.tr","password":"TEST1234"}
+
+One Member Save: {"firstName": "Michael","lastName": "Schumacher","email":"michael.schumacher@michaelschumacher.com","password":"TEST1234"}
 
 Bulk Member Save:[
-					{"firstName": "Merve","lastName": "Ucuzova"},
-					{"firstName": "Pınar","lastName": "Koşan"},
-					{"firstName": "Sümeyra","lastName": "Şimşek"}
+					{"firstName": "Mika","lastName": "Hakkinen","email":"mika.hakkinen@mikahakkinen.com","password":"TEST1234"}
+					{"firstName": "David","lastName": "Coulthard","email":"david.coulthard@davidcoulthard.com","password":"TEST1234"}
+					{"firstName": "Ralf","lastName": "Schumacher","email":"ralf.schumacher@ralfschumacher.com","password":"TEST1234"}
 				  ]
 
-One Member Update: {"id":1,"firstName": "ilkay","lastName": "deneme"}
+One Member Update: {"id":2,"firstName": "Rubens","lastName": "Barichello"}
 
-Bulke Member Delete: [{"id": 6},{"id": 7}]
+One Member Delete: {"id": 6}
+
+Bulk Member Delete: [{"id": 7},{"id": 8}]
