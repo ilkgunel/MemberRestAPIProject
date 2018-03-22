@@ -1,7 +1,6 @@
 package com.ilkaygunel.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,21 +13,22 @@ import org.springframework.util.ObjectUtils;
 import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
-import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.repository.MemberRepository;
 import com.ilkaygunel.util.LoggingUtil;
+import com.ilkaygunel.util.MemberUtil;
 import com.ilkaygunel.wrapper.MemberIdWrapp;
 
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:messageTexts.properties")
 @Service
 public class MemberDeleteService {
-	@Autowired
-	private MemberRepository memberRepository;
 
 	@Autowired
 	private Environment environment;
+
+	@Autowired
+	private MemberRepository memberRepository;
 
 	public MemberOperationPojo deleteOneUserMember(long memberId) {
 		MemberOperationPojo memberOperationPojo = deleteOneMember(memberId, ConstantFields.ROLE_USER);
@@ -65,32 +65,14 @@ public class MemberDeleteService {
 		return memberOperationPojo;
 	}
 
-	private Member checkMember(Long memberId, String roleForCheck) throws CustomException, Exception {
-		Optional<Member> memberForDelete = Optional.ofNullable(memberRepository.findOne(memberId));
-		if (!memberForDelete.isPresent()) {
-			if (ConstantFields.ROLE_USER.equals(roleForCheck)) {
-				throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
-			} else {
-				throw new CustomException(ErrorCodes.ERROR_02, environment.getProperty(ErrorCodes.ERROR_02));
-			}
-		} else if (ConstantFields.ROLE_USER.equals(roleForCheck)
-				&& !ConstantFields.ROLE_USER.equals(memberForDelete.get().getRole())) {
-			throw new CustomException(ErrorCodes.ERROR_03, environment.getProperty(ErrorCodes.ERROR_03));
-		} else if (ConstantFields.ROLE_ADMIN.equals(roleForCheck)
-				&& !ConstantFields.ROLE_ADMIN.equals(memberForDelete.get().getRole())) {
-			throw new CustomException(ErrorCodes.ERROR_04, environment.getProperty(ErrorCodes.ERROR_04));
-		}
-		memberRepository.delete(memberId);
-		return memberForDelete.get();
-	}
-
 	public MemberOperationPojo deleteOneMember(long memberId, String roleOfMember) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		Logger LOGGER = new LoggingUtil().getLoggerForMemberDeleting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(roleOfMember + "_memberDeletingMethod"));
-			Member memberForDelete = checkMember(memberId, ConstantFields.ROLE_USER);
+			Member memberForDelete = new MemberUtil().checkMember(memberId, roleOfMember);
 			memberOperationPojo.setMember(memberForDelete);
+			memberRepository.delete(memberId);
 			memberOperationPojo
 					.setResult(environment.getProperty(roleOfMember + "_memberDeletingSuccessfull") + memberForDelete);
 			LOGGER.log(Level.INFO,

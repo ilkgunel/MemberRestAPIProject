@@ -21,29 +21,27 @@ public class MemberUpdateWebServiceEndpoint {
 	@Autowired
 	private MemberUpdateService memberUpdateServices;
 
-	@RequestMapping(value = "/updateOneMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateOneMember(@RequestBody Member member) {
-		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		memberOperationPojo.setMember(member);
-		try {
-			memberUpdateServices.updateOneMember(member);
-			memberOperationPojo.setResult("Successfull");
-		} catch (Exception ex) {
-			memberOperationPojo.setResult("Failed! The problem is:" + ex);
-		}
+	@RequestMapping(value = "/updateOneUserMember", method = RequestMethod.PUT)
+	private ResponseEntity<MemberOperationPojo> updateOneUserMember(@RequestBody Member member) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneUserMember(member);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/updateBulkMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateBulkMember(@RequestBody List<Member> memberListForUpdate) {
-		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		memberOperationPojo.setMemberList(memberListForUpdate);
-		try {
-			memberUpdateServices.updateBulkMember(memberListForUpdate);
-			memberOperationPojo.setResult("Successfull");
-		} catch (Exception e) {
-			memberOperationPojo.setResult("Failed! The problem is:" + e);
-		}
+	@RequestMapping(value = "/updateOneAdminMember", method = RequestMethod.PUT)
+	private ResponseEntity<MemberOperationPojo> updateOneAdminMember(@RequestBody Member member) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneAdminMember(member);
+		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/updateBulkUserMember", method = RequestMethod.PUT)
+	private ResponseEntity<MemberOperationPojo> updateBulkUserMember(@RequestBody List<Member> memberListForUpdate) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateBulkUserMember(memberListForUpdate);
+		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/updateBulkAdminMember", method = RequestMethod.PUT)
+	private ResponseEntity<MemberOperationPojo> updateBulkAdminMember(@RequestBody List<Member> memberListForUpdate) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateBulkUserMember(memberListForUpdate);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 
