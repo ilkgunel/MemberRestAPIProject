@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.ObjectUtils;
 
 import com.ilkaygunel.constants.ConstantFields;
@@ -26,6 +27,9 @@ public class MemberSaveService {
 
 	@Autowired
 	private MemberRepository memberRepository;
+
+	@Autowired
+	private MemberRoleSaveService memberRoleSaveService;
 
 	@Autowired
 	private Environment environment;
@@ -62,15 +66,18 @@ public class MemberSaveService {
 			member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
 									// required!
 			memberRepository.save(member);
+			memberRoleSaveService.saveMemberWithRole(member.getEmail(), member.getRole());
 			memberOperationPojo
 					.setResult(environment.getProperty(member.getRole() + "_memberAddingSuccessfull") + member);
 			LOGGER.log(Level.INFO, environment.getProperty(member.getRole() + "_memberAddingSuccessfull") + member);
 		} catch (CustomException e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			LOGGER.log(Level.SEVERE, environment.getProperty(member.getRole() + "_memberAddingFaled") + e.getErrorCode()
 					+ " " + e.getErrorMessage());
 			memberOperationPojo.setErrorCode(e.getErrorCode());
 			memberOperationPojo.setResult(e.getErrorMessage());
 		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			LOGGER.log(Level.SEVERE, environment.getProperty(member.getRole() + "_memberAddingFaled") + e.getMessage());
 			memberOperationPojo.setResult(e.getMessage());
 		}
@@ -88,6 +95,7 @@ public class MemberSaveService {
 				member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
 				// required!
 				memberRepository.save(member);
+				memberRoleSaveService.saveMemberWithRole(member.getEmail(), member.getRole());
 			}
 			memberOperationPojo.setResult(
 					environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingSuccessfull") + memberList);
