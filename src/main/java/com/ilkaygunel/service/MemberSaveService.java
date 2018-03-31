@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -17,22 +15,11 @@ import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
-import com.ilkaygunel.repository.MemberRepository;
-import com.ilkaygunel.util.LoggingUtil;
 
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:messageTexts.properties")
 @Service
-public class MemberSaveService {
-
-	@Autowired
-	private MemberRepository memberRepository;
-
-	@Autowired
-	private MemberRoleSaveService memberRoleSaveService;
-
-	@Autowired
-	private Environment environment;
+public class MemberSaveService extends BaseService{
 
 	public MemberOperationPojo addOneUserMember(Member member) {
 		member.setRole(ConstantFields.ROLE_USER);
@@ -58,7 +45,7 @@ public class MemberSaveService {
 
 	public MemberOperationPojo addOneMember(Member member) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
+		Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(member.getRole() + "_memberAddingMethod"));
 			checkMemberFields(member);
@@ -86,7 +73,7 @@ public class MemberSaveService {
 
 	public MemberOperationPojo addBulkMember(List<Member> memberList) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberSaving(this.getClass());
+		Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingMethod"));
 			for (Member member : memberList) {

@@ -9,6 +9,9 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class LoggingUtil {
 
 	public Logger getLoggerForMemberSaving(Class<?> clazz) {

@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -14,21 +12,12 @@ import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.pojo.MemberOperationPojo;
-import com.ilkaygunel.repository.MemberRepository;
-import com.ilkaygunel.util.LoggingUtil;
-import com.ilkaygunel.util.MemberUtil;
 import com.ilkaygunel.wrapper.MemberIdWrapp;
 
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:messageTexts.properties")
 @Service
-public class MemberDeleteService {
-
-	@Autowired
-	private Environment environment;
-
-	@Autowired
-	private MemberRepository memberRepository;
+public class MemberDeleteService extends BaseService{
 
 	public MemberOperationPojo deleteOneUserMember(long memberId) {
 		MemberOperationPojo memberOperationPojo = deleteOneMember(memberId, ConstantFields.ROLE_USER);
@@ -67,10 +56,10 @@ public class MemberDeleteService {
 
 	public MemberOperationPojo deleteOneMember(long memberId, String roleOfMember) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberDeleting(this.getClass());
+		Logger LOGGER = loggingUtil.getLoggerForMemberDeleting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(roleOfMember + "_memberDeletingMethod"));
-			Member memberForDelete = new MemberUtil().checkMember(memberId, roleOfMember);
+			Member memberForDelete = memberUtil.checkMember(memberId, roleOfMember);
 			memberOperationPojo.setMember(memberForDelete);
 			memberRepository.delete(memberId);
 			memberOperationPojo

@@ -2,6 +2,7 @@ package com.ilkaygunel.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
@@ -9,6 +10,7 @@ import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.repository.MemberRepository;
 
+@Component
 public class MemberUtil {
 
 	@Autowired
