@@ -1,9 +1,8 @@
 package com.ilkaygunel.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -13,9 +12,12 @@ public class Member {
 	private String firstName;
 	private String lastName;
 	private String email;
-	//private String role;
 	private boolean enabled;
 	private String password;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id")
+	private List<MemberRoles> rolesOfMember;
 
 	@Override
 	public String toString() {
@@ -69,5 +71,16 @@ public class Member {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<MemberRoles> getRolesOfMember() {
+		if(rolesOfMember==null){
+			rolesOfMember = new ArrayList<>();
+		}
+		return rolesOfMember;
+	}
+
+	public void setRolesOfMember(List<MemberRoles> rolesOfMember) {
+		this.rolesOfMember = rolesOfMember;
 	}
 }
