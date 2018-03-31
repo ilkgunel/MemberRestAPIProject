@@ -8,7 +8,7 @@ import com.ilkaygunel.entities.MemberRoles;
 import com.ilkaygunel.repository.MemberRolesRepository;
 
 @Service
-public class MemberRoleSaveService {
+public class MemberRoleSaveService extends BaseService {
 	@Autowired
 	private MemberRolesRepository memberRolesRepository;
 
@@ -21,5 +21,9 @@ public class MemberRoleSaveService {
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
+	}
+
+	public MemberRoles getMemberRoleWithEmail(String email){
+		return memberRolesRepository.findByEmail(email);
 	}
 }

@@ -9,18 +9,18 @@ import javax.persistence.Id;
 public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long id;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String role;
+	//private String role;
 	private boolean enabled;
 	private String password;
 
 	@Override
 	public String toString() {
-		return String.format("Member [id=%d, firstName='%s', lastName='%s', email='%s',role='%s']", id, firstName,
-				lastName, email, role);
+		return String.format("Member [id=%d, firstName='%s', lastName='%s', email='%s']", id, firstName,
+				lastName, email);
 	}
 
 	public Long getId() {
@@ -45,14 +45,6 @@ public class Member {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 	public String getEmail() {

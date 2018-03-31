@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = { "com.ilkaygunel.service" })
 @ComponentScan(basePackages = { "com.ilkaygunel.pojo" })
 @ComponentScan(basePackages = { "com.ilkaygunel.security" })
+//@ComponentScan(basePackages = { "com.ilkaygunel.*" }) denenecek
 @EnableAutoConfiguration
 @EnableJpaRepositories("com.ilkaygunel.repository")
 public class Application {

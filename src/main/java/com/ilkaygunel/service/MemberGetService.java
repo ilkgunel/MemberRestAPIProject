@@ -12,12 +12,12 @@ import com.ilkaygunel.repository.MemberRepository;
 import com.ilkaygunel.util.LoggingUtil;
 
 @Service
-public class MemberGetService {
+public class MemberGetService extends BaseService {
 	@Autowired
 	private MemberRepository memberRepository;
 
 	public List<Member> getAllMemberList() {
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberGetting(this.getClass());
+		Logger LOGGER = loggingUtil.getLoggerForMemberGetting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "getAllMemberList() method is running.");
 			return (List<Member>) memberRepository.findAll();
@@ -28,7 +28,7 @@ public class MemberGetService {
 	}
 
 	public Member getMemberViaId(long id) {
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberGetting(this.getClass());
+		Logger LOGGER = loggingUtil.getLoggerForMemberGetting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "getMemberViaId(...) method is running.");
 			return memberRepository.findOne(id);
@@ -39,7 +39,7 @@ public class MemberGetService {
 	}
 
 	public Member getMemberViaFirstName(String firstName) {
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberGetting(this.getClass());
+		Logger LOGGER = loggingUtil.getLoggerForMemberGetting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "getMemberViaFirstName(...) method is running.");
 			return memberRepository.findByFirstName(firstName);

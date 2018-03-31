@@ -21,7 +21,7 @@ import com.ilkaygunel.util.MemberUtil;
 @Service
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:messageTexts.properties")
-public class MemberUpdateService {
+public class MemberUpdateService extends BaseService{
 	@Autowired
 	private MemberRepository memberRepository;
 
@@ -61,11 +61,11 @@ public class MemberUpdateService {
 	public MemberOperationPojo updateOneMember(Member memberForUpdate, String roleForCheck) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		memberOperationPojo.setMember(memberForUpdate);
-		Logger LOGGER = new LoggingUtil().getLoggerForMemberUpdating(this.getClass());
+		Logger LOGGER = loggingUtil.getLoggerForMemberUpdating(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(roleForCheck + "_memberUpdatingMethod"));
 			LOGGER.log(Level.INFO, environment.getProperty("memberInformationBeforeUpdate") + memberForUpdate);
-			new MemberUtil().checkMember(memberForUpdate.getId(), roleForCheck);
+			memberUtil.checkMember(memberForUpdate.getId(), roleForCheck);
 			memberRepository.save(memberForUpdate);
 			LOGGER.log(Level.INFO, environment.getProperty(roleForCheck + "_memberUpdatingSuccessful")
 					+ memberRepository.findOne(memberForUpdate.getId()));

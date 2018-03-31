@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ilkaygunel.entities.MemberRoles;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,50 +23,47 @@ import com.ilkaygunel.pojo.MemberOperationPojo;
 public class MemberSaveService extends BaseService{
 
 	public MemberOperationPojo addOneUserMember(Member member) {
-		member.setRole(ConstantFields.ROLE_USER);
 		MemberOperationPojo memberOperationPojo = addOneMember(member);
 		return memberOperationPojo;
 
 	}
 
 	public MemberOperationPojo addOneAdminMember(Member member) {
-		member.setRole(ConstantFields.ROLE_ADMIN);
 		return addOneMember(member);
 	}
 
 	public MemberOperationPojo addBulkUserMember(List<Member> memberList) {
-		memberList.forEach(member -> member.setRole(ConstantFields.ROLE_USER));
 		return addBulkMember(memberList);
 	}
 
 	public MemberOperationPojo addBulkAdminMember(List<Member> memberList) {
-		memberList.forEach(member -> member.setRole(ConstantFields.ROLE_ADMIN));
 		return addBulkMember(memberList);
 	}
 
 	public MemberOperationPojo addOneMember(Member member) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+		MemberRoles memberRoles = memberRoleSaveService.getMemberRoleWithEmail(member.getEmail());
 		Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
 		try {
-			LOGGER.log(Level.INFO, environment.getProperty(member.getRole() + "_memberAddingMethod"));
+			LOGGER.log(Level.INFO, environment.getProperty(memberRoles.getRole() + "_memberAddingMethod"));
 			checkMemberFields(member);
 			member.setPassword(getHashedPassword(member.getPassword()));
 			member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
 									// required!
 			memberRepository.save(member);
-			memberRoleSaveService.saveMemberWithRole(member.getEmail(), member.getRole());
+			memberRoleSaveService.saveMemberWithRole(member.getEmail(), memberRoles.getRole());
 			memberOperationPojo
-					.setResult(environment.getProperty(member.getRole() + "_memberAddingSuccessfull") + member);
-			LOGGER.log(Level.INFO, environment.getProperty(member.getRole() + "_memberAddingSuccessfull") + member);
+					.setResult(environment.getProperty(memberRoles.getRole() + "_memberAddingSuccessfull") + member);
+			LOGGER.log(Level.INFO, environment.getProperty(memberRoles.getRole() + "_memberAddingSuccessfull") + member);
 		} catch (CustomException e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			LOGGER.log(Level.SEVERE, environment.getProperty(member.getRole() + "_memberAddingFaled") + e.getErrorCode()
+			LOGGER.log(Level.SEVERE, environment.getProperty(memberRoles.getRole() + "_memberAddingFaled") + e.getErrorCode()
 					+ " " + e.getErrorMessage());
 			memberOperationPojo.setErrorCode(e.getErrorCode());
 			memberOperationPojo.setResult(e.getErrorMessage());
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			LOGGER.log(Level.SEVERE, environment.getProperty(member.getRole() + "_memberAddingFaled") + e.getMessage());
+			LOGGER.log(Level.SEVERE, environment.getProperty(memberRoles.getRole() + "_memberAddingFaled") + e.getMessage());
 			memberOperationPojo.setResult(e.getMessage());
 		}
 		return memberOperationPojo;
@@ -73,29 +71,30 @@ public class MemberSaveService extends BaseService{
 
 	public MemberOperationPojo addBulkMember(List<Member> memberList) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+		MemberRoles memberRoles = memberRoleSaveService.getMemberRoleWithEmail(memberList.get(0).getEmail());
 		Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
 		try {
-			LOGGER.log(Level.INFO, environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingMethod"));
+			LOGGER.log(Level.INFO, environment.getProperty(memberRoles.getRole() + "_bulkMemberAddingMethod"));
 			for (Member member : memberList) {
 				checkMemberFields(member);
 				member.setPassword(getHashedPassword(member.getPassword()));
 				member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
 				// required!
 				memberRepository.save(member);
-				memberRoleSaveService.saveMemberWithRole(member.getEmail(), member.getRole());
+				memberRoleSaveService.saveMemberWithRole(member.getEmail(), memberRoles.getRole());
 			}
 			memberOperationPojo.setResult(
-					environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingSuccessfull") + memberList);
+					environment.getProperty(memberRoles.getRole() + "_bulkMemberAddingSuccessfull") + memberList);
 			LOGGER.log(Level.INFO,
-					environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingSuccessfull") + memberList);
+					environment.getProperty(memberRoles.getRole() + "_bulkMemberAddingSuccessfull") + memberList);
 		} catch (CustomException e) {
-			LOGGER.log(Level.SEVERE, environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingFaled")
+			LOGGER.log(Level.SEVERE, environment.getProperty(memberRoles.getRole() + "_bulkMemberAddingFaled")
 					+ e.getErrorCode() + " " + e.getErrorMessage());
 			memberOperationPojo.setErrorCode(e.getErrorCode());
 			memberOperationPojo.setResult(e.getErrorMessage());
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE,
-					environment.getProperty(memberList.get(0).getRole() + "_bulkMemberAddingFaled") + e.getMessage());
+					environment.getProperty(memberRoles.getRole() + "_bulkMemberAddingFaled") + e.getMessage());
 			memberOperationPojo.setResult(e.getMessage());
 		}
 		return memberOperationPojo;

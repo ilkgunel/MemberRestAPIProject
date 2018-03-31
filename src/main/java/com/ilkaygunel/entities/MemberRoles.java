@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class MemberRoles {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long id;
 	private String email;
 	private String role;
 

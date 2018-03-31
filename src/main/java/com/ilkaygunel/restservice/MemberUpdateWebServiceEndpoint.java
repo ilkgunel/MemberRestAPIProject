@@ -24,19 +24,19 @@ public class MemberUpdateWebServiceEndpoint {
 	@RequestMapping(value = "/updateOneUserMember", method = RequestMethod.PUT)
 	private ResponseEntity<MemberOperationPojo> updateOneUserMember(@RequestBody Member member) {
 		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneUserMember(member);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateOneAdminMember", method = RequestMethod.PUT)
 	private ResponseEntity<MemberOperationPojo> updateOneAdminMember(@RequestBody Member member) {
 		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneAdminMember(member);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateBulkUserMember", method = RequestMethod.PUT)
 	private ResponseEntity<MemberOperationPojo> updateBulkUserMember(@RequestBody List<Member> memberListForUpdate) {
 		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateBulkUserMember(memberListForUpdate);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateBulkAdminMember", method = RequestMethod.PUT)

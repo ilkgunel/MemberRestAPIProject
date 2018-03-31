@@ -18,29 +18,29 @@ import com.ilkaygunel.wrapper.MemberIdWrapp;
 @RequestMapping("/memberDeleteWebServiceEndPoint")
 public class MemberDeleteWebServiceEndPoint {
 	@Autowired
-	public MemberDeleteService memberDeleteService;
+	private MemberDeleteService memberDeleteService;
 
 	@RequestMapping(value = "/deleteOneUserMember/{memberid}", method = RequestMethod.DELETE)
 	public ResponseEntity<MemberOperationPojo> deleteOneUserMember(@PathVariable("memberid") long memberId) {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteOneUserMember(memberId);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/deleteOneAdminMember/{memberid}", method = RequestMethod.DELETE)
 	public ResponseEntity<MemberOperationPojo> deleteOneAdminMember(@PathVariable("memberid") long memberId) {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteOneAdminMember(memberId);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/deleteBulkUserMember", method = RequestMethod.DELETE)
 	public ResponseEntity<MemberOperationPojo> deleteBulkUserMember(@RequestBody List<MemberIdWrapp> memberIdList) {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteBulkUserMember(memberIdList);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/deleteBulkAdminMember", method = RequestMethod.DELETE)
 	public ResponseEntity<MemberOperationPojo> deleteBulkAdminMember(@RequestBody List<MemberIdWrapp> memberIdList) {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteBulkAdminMember(memberIdList);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
+		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 }
