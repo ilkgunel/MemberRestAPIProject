@@ -1,8 +1,6 @@
 package com.ilkaygunel.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Member {
@@ -15,9 +13,9 @@ public class Member {
 	private boolean enabled;
 	private String password;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id")
-	private List<MemberRoles> rolesOfMember;
+	private MemberRoles roleOfMember;
 
 	@Override
 	public String toString() {
@@ -73,14 +71,11 @@ public class Member {
 		this.password = password;
 	}
 
-	public List<MemberRoles> getRolesOfMember() {
-		if(rolesOfMember==null){
-			rolesOfMember = new ArrayList<>();
-		}
-		return rolesOfMember;
+	public MemberRoles getRoleOfMember() {
+		return roleOfMember;
 	}
 
-	public void setRolesOfMember(List<MemberRoles> rolesOfMember) {
-		this.rolesOfMember = rolesOfMember;
+	public void setRoleOfMember(MemberRoles roleOfMember) {
+		this.roleOfMember = roleOfMember;
 	}
 }

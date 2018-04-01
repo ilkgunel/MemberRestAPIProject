@@ -25,23 +25,22 @@ public class MemberUtil {
 	@Autowired
 	private MemberRoleSaveService memberRoleSaveService;
 
-	public Member checkMember(Long memberId, String roleForCheck) throws CustomException, Exception {
+	public Member checkMember(Long memberId, String roleForCheck) throws Exception {
 		Member member = memberRepository.findOne(memberId);
 		MemberRoles memberRoles = memberRoleSaveService.getMemberRoleWithEmail(member.getEmail());
 		if (member == null) {
 			if (ConstantFields.ROLE_USER.equals(roleForCheck)) {
-				throw new CustomException(ErrorCodes.ERROR_01, environment.getProperty(ErrorCodes.ERROR_01));
+				throw new CustomException(ErrorCodes.ERROR_01.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_01.getErrorCode()));
 			} else {
-				throw new CustomException(ErrorCodes.ERROR_02, environment.getProperty(ErrorCodes.ERROR_02));
+				throw new CustomException(ErrorCodes.ERROR_02.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_02.getErrorCode()));
 			}
 		} else if (ConstantFields.ROLE_USER.equals(roleForCheck)
 				&& !ConstantFields.ROLE_USER.equals(memberRoles.getRole())) {
-			throw new CustomException(ErrorCodes.ERROR_03, environment.getProperty(ErrorCodes.ERROR_03));
+			throw new CustomException(ErrorCodes.ERROR_03.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_03.getErrorCode()));
 		} else if (ConstantFields.ROLE_ADMIN.equals(roleForCheck)
 				&& !ConstantFields.ROLE_ADMIN.equals(memberRoles.getRole())) {
-			throw new CustomException(ErrorCodes.ERROR_04, environment.getProperty(ErrorCodes.ERROR_04));
+			throw new CustomException(ErrorCodes.ERROR_04.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_04.getErrorCode()));
 		}
-		memberRepository.delete(memberId);
 		return member;
 	}
 }

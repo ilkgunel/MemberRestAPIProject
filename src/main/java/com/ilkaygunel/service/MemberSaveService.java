@@ -76,8 +76,7 @@ public class MemberSaveService extends BaseService{
 			for (Member member : memberList) {
 				checkMemberFields(member);
 				member.setPassword(getHashedPassword(member.getPassword()));
-				member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
-				// required!
+				member.setEnabled(true);
 				addMemberRolesObject(role,member);
 				memberRepository.save(member);
 			}
@@ -100,9 +99,9 @@ public class MemberSaveService extends BaseService{
 
 	public void checkMemberFields(Member member) throws CustomException {
 		if (ObjectUtils.isEmpty(member.getEmail())) {
-			throw new CustomException(ErrorCodes.ERROR_05, environment.getProperty(ErrorCodes.ERROR_05));
+			throw new CustomException(ErrorCodes.ERROR_05.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_05.getErrorCode()));
 		} else if (memberRepository.findByEmail(member.getEmail()) != null) {
-			throw new CustomException(ErrorCodes.ERROR_06, environment.getProperty(ErrorCodes.ERROR_06));
+			throw new CustomException(ErrorCodes.ERROR_06.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_06.getErrorCode()) + " " + member.getEmail());
 		}
 	}
 
@@ -114,6 +113,6 @@ public class MemberSaveService extends BaseService{
 		MemberRoles rolesOfMember = new MemberRoles();
 		rolesOfMember.setRole(role);
 		rolesOfMember.setEmail(member.getEmail());
-		member.getRolesOfMember().add(rolesOfMember);
+		member.setRoleOfMember(rolesOfMember);
 	}
 }

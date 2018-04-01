@@ -1,5 +1,6 @@
 package com.ilkaygunel.service;
 
+import com.ilkaygunel.repository.MemberRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class BaseService {
 
 	@Autowired
 	protected MemberRepository memberRepository;
+
+	@Autowired
+	protected MemberRolesRepository memberRolesRepository;
 	
 	@Autowired
 	public LoggingUtil loggingUtil;

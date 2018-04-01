@@ -16,8 +16,9 @@ git config --global user.name "Your Name"
 2) Enabled özelliği mail ile aktivasyona bağlanacak.
 3) Password update kısmı eklenecek, update sırasında password gelirse ignore edilecek.
 4) Long eşitlik kontrolü (Long yerine long'a geçildi)
-5) Member ile MemberRole arası OneToOne ya da OneToMany ilişkisi
-6) ErrrorCodes enum'a çekilebilir.
+5) Member ile MemberRole arası OneToOne ya da OneToMany ilişkisi(OneToOne ilişki yapıldı)
+6) ErrrorCodes enum'a çekilebilir.(enum yapıldı)
 7) Logging Util'i AutoWired ile BaseService'den kullanabiliriz. Aynısını Environment için de yapalım.(Yapıldı)
 8) Çoklu dil desteği
 9) MemberOperationPojo'dan Member alanını çıkar. Tüm sonuçları tek ya da çoklu member olsa bile liste olarak dön
+10)componentScan *'lı hale getirildi. (yapıldı)
