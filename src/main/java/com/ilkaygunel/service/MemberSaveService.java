@@ -23,21 +23,21 @@ import com.ilkaygunel.pojo.MemberOperationPojo;
 public class MemberSaveService extends BaseService{
 
 	public MemberOperationPojo addOneUserMember(Member member) {
-		MemberOperationPojo memberOperationPojo = addOneMember(member,ConstantFields.ROLE_USER);
+		MemberOperationPojo memberOperationPojo = addOneMember(member,ConstantFields.ROLE_USER.getConstantField());
 		return memberOperationPojo;
 
 	}
 
 	public MemberOperationPojo addOneAdminMember(Member member) {
-		return addOneMember(member,ConstantFields.ROLE_ADMIN);
+		return addOneMember(member,ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
 	public MemberOperationPojo addBulkUserMember(List<Member> memberList) {
-		return addBulkMember(memberList,ConstantFields.ROLE_USER);
+		return addBulkMember(memberList,ConstantFields.ROLE_USER.getConstantField());
 	}
 
 	public MemberOperationPojo addBulkAdminMember(List<Member> memberList) {
-		return addBulkMember(memberList,ConstantFields.ROLE_ADMIN);
+		return addBulkMember(memberList,ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
 	public MemberOperationPojo addOneMember(Member member,String role) {

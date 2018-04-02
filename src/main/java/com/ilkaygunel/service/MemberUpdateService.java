@@ -29,17 +29,17 @@ public class MemberUpdateService extends BaseService{
 	private Environment environment;
 
 	public MemberOperationPojo updateOneUserMember(Member memberForUpdate) {
-		return updateOneMember(memberForUpdate, ConstantFields.ROLE_USER);
+		return updateOneMember(memberForUpdate, ConstantFields.ROLE_USER.getConstantField());
 	}
 
 	public MemberOperationPojo updateOneAdminMember(Member memberForUpdate) {
-		return updateOneMember(memberForUpdate, ConstantFields.ROLE_ADMIN);
+		return updateOneMember(memberForUpdate, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
 	public MemberOperationPojo updateBulkUserMember(List<Member> memberListForUpdate) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		for (Member member : memberListForUpdate) {
-			MemberOperationPojo temporaryMemberOperationPojo = updateOneMember(member, ConstantFields.ROLE_USER);
+			MemberOperationPojo temporaryMemberOperationPojo = updateOneMember(member, ConstantFields.ROLE_USER.getConstantField());
 			memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
 					+ environment.getProperty(ConstantFields.ROLE_USER + "_bulkMemberDeletingSuccessfull")
 					+ temporaryMemberOperationPojo.getMember());
@@ -50,7 +50,7 @@ public class MemberUpdateService extends BaseService{
 	public MemberOperationPojo updateBulkAdminMember(List<Member> memberListForUpdate) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		for (Member member : memberListForUpdate) {
-			MemberOperationPojo temporaryMemberOperationPojo = updateOneMember(member, ConstantFields.ROLE_ADMIN);
+			MemberOperationPojo temporaryMemberOperationPojo = updateOneMember(member, ConstantFields.ROLE_ADMIN.getConstantField());
 			memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
 					+ environment.getProperty(ConstantFields.ROLE_ADMIN + "_bulkMemberDeletingSuccessfull")
 					+ temporaryMemberOperationPojo.getMember());

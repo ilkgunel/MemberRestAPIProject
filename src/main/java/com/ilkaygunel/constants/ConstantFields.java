@@ -1,9 +1,17 @@
 package com.ilkaygunel.constants;
 
-public class ConstantFields {
+public enum ConstantFields {
 
-	public static final String ROLE_USER = "ROLE_USER";
-	public static final String ROLE_ADMIN = "ROLE_ADMIN";
+	ROLE_USER("ROLE_USER"),
+	ROLE_ADMIN("ROLE_ADMIN");
 
-	//Burayı enum'a çevirip deneyelim.
+	private String constantField;
+
+	ConstantFields(String constantField){
+		this.constantField=constantField;
+	}
+
+	public String getConstantField(){
+		return constantField;
+	}
 }

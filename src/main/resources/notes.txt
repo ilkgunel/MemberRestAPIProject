@@ -22,3 +22,5 @@ git config --global user.name "Your Name"
 8) Çoklu dil desteği
 9) MemberOperationPojo'dan Member alanını çıkar. Tüm sonuçları tek ya da çoklu member olsa bile liste olarak dön
 10)componentScan *'lı hale getirildi. (yapıldı)
+11) valid e-mail kontrolü yapılacak
+12)Spring Secuirty Spring Data'ya bağlanabilir mi araştırılacak.
