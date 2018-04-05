@@ -59,11 +59,9 @@ public class MemberSaveService extends BaseService{
 					+ " " + e.getErrorMessage());
 			memberOperationPojo.setErrorCode(e.getErrorCode());
 			memberOperationPojo.setResult(e.getErrorMessage());
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, environment.getProperty(role + "_memberAddingFaled") + e.getMessage());
 			memberOperationPojo.setResult(e.getMessage());
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
 		return memberOperationPojo;
 	}
