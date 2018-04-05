@@ -6,7 +6,8 @@ public enum ErrorCodes {
 	ERROR_03("ERROR-03"),
 	ERROR_04("ERROR-04"),
 	ERROR_05("ERROR-05"),
-	ERROR_06("ERROR-06");
+	ERROR_06("ERROR-06"),
+	ERROR_07("ERROR-07");
 
 	private String errorCode;
 

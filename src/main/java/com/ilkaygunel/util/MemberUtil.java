@@ -13,6 +13,9 @@ import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.repository.MemberRepository;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
 public class MemberUtil {
 
@@ -42,5 +45,11 @@ public class MemberUtil {
 			throw new CustomException(ErrorCodes.ERROR_04.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_04.getErrorCode()));
 		}
 		return member;
+	}
+
+	public boolean isValidEmailAddress(String emailAddress){
+		Pattern emailPattern = Pattern.compile(ConstantFields.EMAIL_CHECK_PATTERN.getConstantField());
+		Matcher emailMatcher = emailPattern.matcher(emailAddress);
+		return emailMatcher.matches();
 	}
 }

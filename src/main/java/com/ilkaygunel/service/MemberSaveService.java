@@ -102,6 +102,8 @@ public class MemberSaveService extends BaseService{
 			throw new CustomException(ErrorCodes.ERROR_05.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_05.getErrorCode()));
 		} else if (memberRepository.findByEmail(member.getEmail()) != null) {
 			throw new CustomException(ErrorCodes.ERROR_06.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_06.getErrorCode()) + " " + member.getEmail());
+		}else if(!memberUtil.isValidEmailAddress(member.getEmail())){
+			throw new CustomException(ErrorCodes.ERROR_07.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_07.getErrorCode()) + " " + member.getEmail());
 		}
 	}
 
