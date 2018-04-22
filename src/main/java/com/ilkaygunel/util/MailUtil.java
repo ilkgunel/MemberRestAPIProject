@@ -35,7 +35,7 @@ public class MailUtil {
             message.setFrom(new InternetAddress("localhost@localhost8084.com"));
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(emailAddress));
             message.setSubject("Hesabınızı Aktifleştirin");
-            message.setText("Hesabınızın aktifleştirilmesi için bu linke tıklayınız:http://localhost:8080/MemberRestAPIProject/activateMemberWebServiceEndpoint/activateMember?activationToken="+activationToken);
+            message.setText("Hesabınızın aktifleştirilmesi için bu linke tıklayınız: http://localhost:8080/MemberRestAPIProject/activateMemberWebServiceEndpoint/activateMember?activationToken="+activationToken);
             Transport.send(message);
         } catch (MessagingException ex) {
             throw new RuntimeException(ex);
