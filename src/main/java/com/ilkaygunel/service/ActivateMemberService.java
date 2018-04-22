@@ -2,6 +2,7 @@ package com.ilkaygunel.service;
 
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
+import com.ilkaygunel.exception.ErrorCodes;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,10 +14,10 @@ public class ActivateMemberService extends BaseService{
         try {
             Member existingMember = memberRepository.findByActivationToken(activationToken);
             if (existingMember==null){
-                throw new CustomException("ERROR-08", "There is no member to activate with this email address!");
+                throw new CustomException(ErrorCodes.ERROR_08.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_08.getErrorCode()));
             }
             if (LocalDateTime.now().isAfter(existingMember.getActivationTokenExpDate())){
-
+                throw new CustomException(ErrorCodes.ERROR_09.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_09.getErrorCode()));
             }
             existingMember.setEnabled(true);
             memberRepository.save(existingMember);

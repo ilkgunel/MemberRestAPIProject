@@ -113,6 +113,7 @@ public class MemberSaveService extends BaseService{
         member.setActivationToken(activationToken);
 
         LocalDateTime activationTokenExpDate = LocalDateTime.now().plusDays(1);
+        //LocalDateTime activationTokenExpDate = LocalDateTime.now();//Use for expire date test!
         member.setActivationTokenExpDate(activationTokenExpDate);
     }
 }

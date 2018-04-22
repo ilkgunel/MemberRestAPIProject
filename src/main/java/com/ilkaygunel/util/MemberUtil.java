@@ -4,6 +4,7 @@ import com.ilkaygunel.entities.MemberRoles;
 import com.ilkaygunel.repository.MemberRolesRepository;
 import com.ilkaygunel.service.MemberRoleSaveService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,8 @@ import org.springframework.util.ObjectUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
+@PropertySource(ignoreResourceNotFound = true, value = "classpath:messageTexts.properties")
 @Component
 public class MemberUtil {
 

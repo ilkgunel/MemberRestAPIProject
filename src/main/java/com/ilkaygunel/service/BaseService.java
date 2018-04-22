@@ -3,6 +3,7 @@ package com.ilkaygunel.service;
 import com.ilkaygunel.repository.MemberRolesRepository;
 import com.ilkaygunel.util.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
