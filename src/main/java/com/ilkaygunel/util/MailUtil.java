@@ -12,7 +12,7 @@ public class MailUtil {
 
     public void sendActivationMail(String emailAddress,String activationToken){
         String userName ="ilkgunel93@gmail.com";
-        String password = "pmjjefscyjoocnmc";
+        String password = "";
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");

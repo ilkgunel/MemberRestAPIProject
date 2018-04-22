@@ -13,7 +13,7 @@ git config --global user.name "Your Name"
 
 ----------------------------------------------------
 1) DataSourceClass içindeki parametreler property'den alınacak.(Yapıldı)
-2) Enabled özelliği mail ile aktivasyona bağlanacak, token ile aktive olacak, exp date olacak.
+2) Enabled özelliği mail ile aktivasyona bağlanacak, token ile aktive olacak, exp date olacak.(exp date kaldı)
 3) Password update kısmı eklenecek, update sırasında password gelirse ignore edilecek.
 4) Long eşitlik kontrolü (Long yerine long'a geçildi)
 5) Member ile MemberRole arası OneToOne ya da OneToMany ilişkisi(OneToOne ilişki yapıldı)

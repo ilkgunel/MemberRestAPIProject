@@ -1,5 +1,6 @@
 package com.ilkaygunel.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -110,5 +111,8 @@ public class MemberSaveService extends BaseService{
 	private void addActivationToken(Member member){
         String activationToken = UUID.randomUUID().toString();
         member.setActivationToken(activationToken);
+
+        LocalDateTime activationTokenExpDate = LocalDateTime.now().plusDays(1);
+        member.setActivationTokenExpDate(activationTokenExpDate);
     }
 }

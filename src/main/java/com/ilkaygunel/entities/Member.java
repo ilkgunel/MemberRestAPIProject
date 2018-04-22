@@ -1,6 +1,8 @@
 package com.ilkaygunel.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Member {
@@ -13,6 +15,7 @@ public class Member {
 	private boolean enabled;
 	private String password;
 	private String activationToken;
+	private LocalDateTime activationTokenExpDate;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id")
@@ -86,5 +89,13 @@ public class Member {
 
 	public void setActivationToken(String activationToken) {
 		this.activationToken = activationToken;
+	}
+
+	public LocalDateTime getActivationTokenExpDate() {
+		return activationTokenExpDate;
+	}
+
+	public void setActivationTokenExpDate(LocalDateTime activationTokenExpDate) {
+		this.activationTokenExpDate = activationTokenExpDate;
 	}
 }

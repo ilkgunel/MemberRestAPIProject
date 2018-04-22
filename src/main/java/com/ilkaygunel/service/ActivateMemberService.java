@@ -4,6 +4,8 @@ import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ActivateMemberService extends BaseService{
 
@@ -12,6 +14,9 @@ public class ActivateMemberService extends BaseService{
             Member existingMember = memberRepository.findByActivationToken(activationToken);
             if (existingMember==null){
                 throw new CustomException("ERROR-08", "There is no member to activate with this email address!");
+            }
+            if (LocalDateTime.now().isAfter(existingMember.getActivationTokenExpDate())){
+
             }
             existingMember.setEnabled(true);
             memberRepository.save(existingMember);
