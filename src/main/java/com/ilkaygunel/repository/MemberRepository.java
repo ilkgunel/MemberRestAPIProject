@@ -12,4 +12,6 @@ public interface MemberRepository extends CrudRepository<Member, Long> {
 	Member findByFirstName(String firstName);
 
 	Member findByEmail(String email);
+
+	Member findByActivationToken(String activationToken);
 }

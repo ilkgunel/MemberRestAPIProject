@@ -12,6 +12,7 @@ public class Member {
 	private String email;
 	private boolean enabled;
 	private String password;
+	private String activationToken;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id")
@@ -77,5 +78,13 @@ public class Member {
 
 	public void setRoleOfMember(MemberRoles roleOfMember) {
 		this.roleOfMember = roleOfMember;
+	}
+
+	public String getActivationToken() {
+		return activationToken;
+	}
+
+	public void setActivationToken(String activationToken) {
+		this.activationToken = activationToken;
 	}
 }

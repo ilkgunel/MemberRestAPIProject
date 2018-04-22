@@ -20,6 +20,6 @@ public class MemberDetailServiceImpl extends BaseService implements UserDetailsS
         Member member = memberRepository.findByEmail(emailAddress);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(member.getRoleOfMember().getRole()));
-        return new User(member.getEmail(),member.getPassword(),grantedAuthorities);
+        return new User(member.getEmail(),member.getPassword(),member.isEnabled(),true,true,true,grantedAuthorities);
     }
 }

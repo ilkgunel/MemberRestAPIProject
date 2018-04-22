@@ -1,6 +1,7 @@
 package com.ilkaygunel.service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,13 +9,10 @@ import com.ilkaygunel.entities.MemberRoles;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.util.ObjectUtils;
 
 import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
-import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
@@ -45,12 +43,13 @@ public class MemberSaveService extends BaseService{
 		Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(role + "_memberAddingMethod"));
-			checkMemberFields(member);
+			memberUtil.checkEmailAddress(member);
 			member.setPassword(getHashedPassword(member.getPassword()));
-			member.setEnabled(true);// In future development, this field will be false and e-mail activation will be
-									// required!
+			member.setEnabled(false);
 			addMemberRolesObject(role,member);
+            addActivationToken(member);
 			memberRepository.save(member);
+			mailUtil.sendActivationMail(member.getEmail(),member.getActivationToken());
 			memberOperationPojo
 					.setResult(environment.getProperty(role + "_memberAddingSuccessfull") + member);
 			LOGGER.log(Level.INFO, environment.getProperty(role + "_memberAddingSuccessfull") + member);
@@ -72,11 +71,13 @@ public class MemberSaveService extends BaseService{
 		try {
 			LOGGER.log(Level.INFO, environment.getProperty(role + "_bulkMemberAddingMethod"));
 			for (Member member : memberList) {
-				checkMemberFields(member);
+				memberUtil.checkEmailAddress(member);
 				member.setPassword(getHashedPassword(member.getPassword()));
 				member.setEnabled(true);
 				addMemberRolesObject(role,member);
+				addActivationToken(member);
 				memberRepository.save(member);
+                mailUtil.sendActivationMail(member.getEmail(),member.getActivationToken());
 			}
 			memberOperationPojo.setResult(
 					environment.getProperty(role + "_bulkMemberAddingSuccessfull") + memberList);
@@ -95,16 +96,6 @@ public class MemberSaveService extends BaseService{
 		return memberOperationPojo;
 	}
 
-	public void checkMemberFields(Member member) throws CustomException {
-		if (ObjectUtils.isEmpty(member.getEmail())) {
-			throw new CustomException(ErrorCodes.ERROR_05.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_05.getErrorCode()));
-		} else if (memberRepository.findByEmail(member.getEmail()) != null) {
-			throw new CustomException(ErrorCodes.ERROR_06.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_06.getErrorCode()) + " " + member.getEmail());
-		}else if(!memberUtil.isValidEmailAddress(member.getEmail())){
-			throw new CustomException(ErrorCodes.ERROR_07.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_07.getErrorCode()) + " " + member.getEmail());
-		}
-	}
-
 	private String getHashedPassword(String rawPassword) {
 		return new BCryptPasswordEncoder().encode(rawPassword);
 	}
@@ -115,4 +106,9 @@ public class MemberSaveService extends BaseService{
 		rolesOfMember.setEmail(member.getEmail());
 		member.setRoleOfMember(rolesOfMember);
 	}
+
+	private void addActivationToken(Member member){
+        String activationToken = UUID.randomUUID().toString();
+        member.setActivationToken(activationToken);
+    }
 }

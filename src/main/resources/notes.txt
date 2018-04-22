@@ -13,7 +13,7 @@ git config --global user.name "Your Name"
 
 ----------------------------------------------------
 1) DataSourceClass içindeki parametreler property'den alınacak.(Yapıldı)
-2) Enabled özelliği mail ile aktivasyona bağlanacak.
+2) Enabled özelliği mail ile aktivasyona bağlanacak, token ile aktive olacak, exp date olacak.
 3) Password update kısmı eklenecek, update sırasında password gelirse ignore edilecek.
 4) Long eşitlik kontrolü (Long yerine long'a geçildi)
 5) Member ile MemberRole arası OneToOne ya da OneToMany ilişkisi(OneToOne ilişki yapıldı)
@@ -23,4 +23,4 @@ git config --global user.name "Your Name"
 9) MemberOperationPojo'dan Member alanını çıkar. Tüm sonuçları tek ya da çoklu member olsa bile liste olarak dön
 10)componentScan *'lı hale getirildi. (yapıldı)
 11) valid e-mail kontrolü yapılacak (yapıldı)
-12)Spring Secuirty Spring Data'ya bağlanabilir mi araştırılacak.
+12)Spring Secuirty Spring Data'ya bağlanabilir mi araştırılacak.(yapıldı)

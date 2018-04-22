@@ -1,6 +1,7 @@
 package com.ilkaygunel.service;
 
 import com.ilkaygunel.repository.MemberRolesRepository;
+import com.ilkaygunel.util.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import com.ilkaygunel.util.MemberUtil;
 public class BaseService {
 	@Autowired
 	protected MemberUtil memberUtil;
+
+	@Autowired
+	protected MailUtil mailUtil;
 	
 	@Autowired
 	protected Environment environment;

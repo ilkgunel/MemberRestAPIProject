@@ -12,6 +12,7 @@ import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.repository.MemberRepository;
+import org.springframework.util.ObjectUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,5 +52,15 @@ public class MemberUtil {
 		Pattern emailPattern = Pattern.compile(ConstantFields.EMAIL_CHECK_PATTERN.getConstantField());
 		Matcher emailMatcher = emailPattern.matcher(emailAddress);
 		return emailMatcher.matches();
+	}
+
+	public void checkEmailAddress(Member member) throws CustomException {
+		if (ObjectUtils.isEmpty(member.getEmail())) {
+			throw new CustomException(ErrorCodes.ERROR_05.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_05.getErrorCode()));
+		} else if (memberRepository.findByEmail(member.getEmail()) != null) {
+			throw new CustomException(ErrorCodes.ERROR_06.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_06.getErrorCode()) + " " + member.getEmail());
+		}else if(!isValidEmailAddress(member.getEmail())){
+			throw new CustomException(ErrorCodes.ERROR_07.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_07.getErrorCode()) + " " + member.getEmail());
+		}
 	}
 }
