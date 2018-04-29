@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;

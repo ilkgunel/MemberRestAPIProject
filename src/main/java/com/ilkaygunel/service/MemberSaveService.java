@@ -2,6 +2,7 @@ package com.ilkaygunel.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,8 +43,8 @@ public class MemberSaveService extends BaseService{
 	public MemberOperationPojo addOneMember(Member member,String role) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
-		try {
-			LOGGER.log(Level.INFO, environment.getProperty(role + "_memberAddingMethod"));
+		try {			
+			LOGGER.log(Level.INFO, applicationConfig.messageSource().getMessage(role + "_memberAddingMethod", null, new Locale("tr")));
 			memberUtil.checkEmailAddress(member);
 			member.setPassword(getHashedPassword(member.getPassword()));
 			member.setEnabled(false);
