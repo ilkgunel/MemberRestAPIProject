@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationConfig {
 
-	public static ResourceBundleMessageSource messageSourceInstance = null;
+	private static ResourceBundleMessageSource messageSourceInstance = null;
 
 	public String getValueOfProperty(String propertyName, String localeValue) {
 

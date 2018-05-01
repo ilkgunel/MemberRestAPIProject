@@ -10,7 +10,9 @@ public enum ErrorCodes {
 	ERROR_07("ERROR-07"),
 	ERROR_08("ERROR-08"),
 	ERROR_09("ERROR-09"),
-	ERROR_10("ERROR-10");
+	ERROR_10("ERROR-10"),
+	ERROR_11("ERROR-11");
+
 
 	private String errorCode;
 

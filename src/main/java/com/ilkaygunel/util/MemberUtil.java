@@ -61,7 +61,7 @@ public class MemberUtil {
         return emailMatcher.matches();
     }
 
-    public MemberOperationPojo checkEmailAddress(Member member, Logger LOGGER) {
+    public MemberOperationPojo checkEmailAddressAndLanguage(Member member, Logger LOGGER) {
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
         try {
             if (ObjectUtils.isEmpty(member.getEmail())) {
@@ -70,6 +70,8 @@ public class MemberUtil {
                 throw new CustomException(ErrorCodes.ERROR_06.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_06.getErrorCode()) + " " + member.getEmail());
             } else if (!isValidEmailAddress(member.getEmail())) {
                 throw new CustomException(ErrorCodes.ERROR_07.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_07.getErrorCode()) + " " + member.getEmail());
+            }else if(ObjectUtils.isEmpty(member.getMemberLanguageCode())){
+                throw new CustomException(ErrorCodes.ERROR_11.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_11.getErrorCode()));
             }
         } catch (CustomException customException) {
             LOGGER.log(Level.SEVERE,
@@ -84,7 +86,7 @@ public class MemberUtil {
     public void checkEmailAddressOnMemberList(List<Member> memberList, Logger LOGGER) throws CustomException {
         MemberOperationPojo memberOperationPojo = null;
         for (Member member : memberList) {
-            memberOperationPojo = checkEmailAddress(member, LOGGER);
+            memberOperationPojo = checkEmailAddressAndLanguage(member, LOGGER);
             if (!ObjectUtils.isEmpty(memberOperationPojo.getErrorCode())){
                 throw new CustomException(memberOperationPojo.getErrorCode(), environment.getProperty(memberOperationPojo.getErrorCode()));
             }

@@ -23,7 +23,7 @@ public class MemberSaveService extends BaseService {
 
     public MemberOperationPojo addOneUserMember(Member member) {
         Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
-        MemberOperationPojo memberOperationPojo = memberUtil.checkEmailAddress(member, LOGGER);
+        MemberOperationPojo memberOperationPojo = memberUtil.checkEmailAddressAndLanguage(member, LOGGER);
         if (ObjectUtils.isEmpty(memberOperationPojo.getErrorCode())) {
             memberOperationPojo = addOneMember(member, ConstantFields.ROLE_USER.getConstantField(), LOGGER);
         }
@@ -32,7 +32,7 @@ public class MemberSaveService extends BaseService {
 
     public MemberOperationPojo addOneAdminMember(Member member) {
         Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
-        MemberOperationPojo memberOperationPojo = memberUtil.checkEmailAddress(member, LOGGER);
+        MemberOperationPojo memberOperationPojo = memberUtil.checkEmailAddressAndLanguage(member, LOGGER);
         if (ObjectUtils.isEmpty(memberOperationPojo.getErrorCode())) {
             memberOperationPojo = addOneMember(member, ConstantFields.ROLE_ADMIN.getConstantField(), LOGGER);
         }
@@ -77,22 +77,22 @@ public class MemberSaveService extends BaseService {
     public MemberOperationPojo addOneMember(Member member, String role, Logger LOGGER) {
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
         try {
-            LOGGER.log(Level.INFO, applicationConfig.getValueOfProperty(role + "_memberAddingMethod", "tr"));
+            LOGGER.log(Level.INFO, applicationConfig.getValueOfProperty(role + "_memberAddingMethod", member.getMemberLanguageCode()));
             member.setPassword(getHashedPassword(member.getPassword()));
             member.setEnabled(false);
             addMemberRolesObject(role, member);
             addActivationToken(member);
             memberRepository.save(member);
             mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
-            memberOperationPojo.setResult(applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull","tr"));
+            memberOperationPojo.setResult(applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull",member.getMemberLanguageCode()));
 
             List<Member> memberList = new ArrayList<>();
             memberList.add(member);
 
             memberOperationPojo.setMemberList(memberList);
-            LOGGER.log(Level.INFO, applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull","tr") + member);
+            LOGGER.log(Level.INFO, applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull",member.getMemberLanguageCode()) + member);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, applicationConfig.getValueOfProperty(role + "_memberAddingFaled","tr") + e.getMessage());
+            LOGGER.log(Level.SEVERE, applicationConfig.getValueOfProperty(role + "_memberAddingFaled",member.getMemberLanguageCode()) + e.getMessage());
             memberOperationPojo.setErrorCode(ErrorCodes.ERROR_10.getErrorCode());
             memberOperationPojo.setResult(e.getMessage());
         }

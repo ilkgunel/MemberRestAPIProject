@@ -14,6 +14,7 @@ public class Member {
 	private String email;
 	private boolean enabled;
 	private String password;
+	private String memberLanguageCode;
 	private String activationToken;
 	private LocalDateTime activationTokenExpDate;
 
@@ -97,5 +98,13 @@ public class Member {
 
 	public void setActivationTokenExpDate(LocalDateTime activationTokenExpDate) {
 		this.activationTokenExpDate = activationTokenExpDate;
+	}
+
+	public String getMemberLanguageCode() {
+		return memberLanguageCode;
+	}
+
+	public void setMemberLanguageCode(String memberLanguageCode) {
+		this.memberLanguageCode = memberLanguageCode;
 	}
 }
