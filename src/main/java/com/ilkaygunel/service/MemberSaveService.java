@@ -60,7 +60,6 @@ public class MemberSaveService extends BaseService {
     public MemberOperationPojo addBulkAdminMember(List<Member> memberList) {
         Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
         MemberOperationPojo memberOperationPojo;
-
         try {
             memberUtil.checkEmailAddressOnMemberList(memberList, LOGGER);
             memberOperationPojo = addBulkMember(memberList, ConstantFields.ROLE_ADMIN.getConstantField(), LOGGER);
@@ -85,15 +84,15 @@ public class MemberSaveService extends BaseService {
             addActivationToken(member);
             memberRepository.save(member);
             mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
-            memberOperationPojo.setResult(environment.getProperty(role + "_memberAddingSuccessfull") + member);
+            memberOperationPojo.setResult(applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull","tr"));
 
             List<Member> memberList = new ArrayList<>();
             memberList.add(member);
 
             memberOperationPojo.setMemberList(memberList);
-            LOGGER.log(Level.INFO, environment.getProperty(role + "_memberAddingSuccessfull") + member);
+            LOGGER.log(Level.INFO, applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull","tr") + member);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, environment.getProperty(role + "_memberAddingFaled") + e.getMessage());
+            LOGGER.log(Level.SEVERE, applicationConfig.getValueOfProperty(role + "_memberAddingFaled","tr") + e.getMessage());
             memberOperationPojo.setErrorCode(ErrorCodes.ERROR_10.getErrorCode());
             memberOperationPojo.setResult(e.getMessage());
         }

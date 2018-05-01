@@ -17,6 +17,7 @@ import com.ilkaygunel.wrapper.MemberIdWrapp;
 @RestController
 @RequestMapping("/memberDeleteWebServiceEndPoint")
 public class MemberDeleteWebServiceEndPoint {
+
 	@Autowired
 	private MemberDeleteService memberDeleteService;
 

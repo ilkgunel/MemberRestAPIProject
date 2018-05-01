@@ -8,9 +8,9 @@ import com.ilkaygunel.entities.Member;
 
 @JsonInclude(Include.NON_NULL)
 public class MemberOperationPojo {
+	private String result;
 	private Member member;// use for one member save or update
 	private List<Member> memberList;// use for bulk member save or update
-	private String result;
 	private String errorCode;// using for only exceptions
 
 	public String getResult() {

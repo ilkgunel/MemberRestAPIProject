@@ -14,8 +14,6 @@ import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.wrapper.MemberIdWrapp;
 
-@PropertySource(ignoreResourceNotFound = true, value = "classpath:errorMeanings.properties")
-@PropertySource(ignoreResourceNotFound = true, value = "classpath:messageTexts.properties")
 @Service
 public class MemberDeleteService extends BaseService{
 
