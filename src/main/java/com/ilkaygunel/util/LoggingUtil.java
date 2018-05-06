@@ -30,6 +30,10 @@ public class LoggingUtil {
 		return getLogger("./memberDeleting.log", clazz);
 	}
 
+	public Logger getLoggerForEmailSending(Class<?> clazz){
+		return getLogger("./emailSending.log",clazz);
+	}
+
 	private Logger getLogger(String logFileName, Class<?> clazz) {
 		LogManager.getLogManager().reset();
 		Logger logger = Logger.getLogger(clazz.getName());
