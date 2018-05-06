@@ -21,7 +21,7 @@ Links:
 		
 Sample JSON's:
 
-One Member Save: {"firstName": "Michael","lastName": "Schumacher","email":"michael.schumacher@michaelschumacher.com","password":"TEST1234"}
+One Member Save: {"firstName": "Michael","lastName": "Schumacher","memberLanguageCode":"tr","email":"michael.schumacher@michaelschumacher.com","password":"TEST1234"}
 
 Bulk Member Save:[
 					{"firstName": "Mika","lastName": "Hakkinen","email":"mika.hakkinen@mikahakkinen.com","password":"TEST1234"}
