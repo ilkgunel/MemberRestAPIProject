@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.ilkaygunel.application.ApplicationConfig;
+import com.ilkaygunel.application.ResourceBundleMessageManager;
 import com.ilkaygunel.repository.MemberRepository;
 import com.ilkaygunel.util.LoggingUtil;
 import com.ilkaygunel.util.MemberUtil;
@@ -38,5 +38,6 @@ public class BaseService {
 	protected MemberRoleSaveService memberRoleSaveService;
 	
 	@Autowired
-	protected ApplicationConfig applicationConfig;
+	protected ResourceBundleMessageManager resourceBundleMessageManager;
+
 }

@@ -6,7 +6,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApplicationConfig {
+public class ResourceBundleMessageManager {
 
 	private static ResourceBundleMessageSource messageSourceInstance = null;
 
@@ -14,7 +14,7 @@ public class ApplicationConfig {
 
 		if (messageSourceInstance == null) {
 			messageSourceInstance = new ResourceBundleMessageSource();
-			messageSourceInstance.setBasenames("messageTexts");
+			messageSourceInstance.setBasenames("messageTexts","errorMeanings");
 			messageSourceInstance.setDefaultEncoding("UTF-8");
 		}
 

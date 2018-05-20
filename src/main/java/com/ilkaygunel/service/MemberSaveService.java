@@ -48,7 +48,7 @@ public class MemberSaveService extends BaseService {
             memberOperationPojo = addBulkMember(memberList, ConstantFields.ROLE_USER.getConstantField(), LOGGER);
         } catch (CustomException customException) {
             LOGGER.log(Level.SEVERE,
-                    environment.getProperty(ConstantFields.ROLE_USER.getConstantField() + "_memberAddingFaled") + customException.getErrorCode() + " "
+                    resourceBundleMessageManager.getValueOfProperty(ConstantFields.ROLE_USER.getConstantField() + "_memberAddingFaled", "en") + customException.getErrorCode() + " "
                             + customException.getErrorMessage());
             memberOperationPojo = new MemberOperationPojo();
             memberOperationPojo.setErrorCode(customException.getErrorCode());
@@ -77,22 +77,23 @@ public class MemberSaveService extends BaseService {
     public MemberOperationPojo addOneMember(Member member, String role, Logger LOGGER) {
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
         try {
-            LOGGER.log(Level.INFO, applicationConfig.getValueOfProperty(role + "_memberAddingMethod", member.getMemberLanguageCode()));
+            LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingMethod", member.getMemberLanguageCode()));
             member.setPassword(getHashedPassword(member.getPassword()));
             member.setEnabled(false);
             addMemberRolesObject(role, member);
             addActivationToken(member);
             memberRepository.save(member);
             mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
-            memberOperationPojo.setResult(applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull",member.getMemberLanguageCode()));
+            memberOperationPojo.setResult(resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull", member.getMemberLanguageCode()));
 
             List<Member> memberList = new ArrayList<>();
             memberList.add(member);
 
             memberOperationPojo.setMemberList(memberList);
-            LOGGER.log(Level.INFO, applicationConfig.getValueOfProperty(role + "_memberAddingSuccessfull",member.getMemberLanguageCode()) + member);
+            LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull", member.getMemberLanguageCode()) + member);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, applicationConfig.getValueOfProperty(role + "_memberAddingFaled",member.getMemberLanguageCode()) + e.getMessage());
+            LOGGER.log(Level.SEVERE, resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingFaled", member.getMemberLanguageCode()) + e.getMessage());
+            loggingUtil.getLoggerForEmailSending(this.getClass()).log(Level.SEVERE, e.getMessage());
             memberOperationPojo.setErrorCode(ErrorCodes.ERROR_10.getErrorCode());
             memberOperationPojo.setResult(e.getMessage());
         }
@@ -100,22 +101,26 @@ public class MemberSaveService extends BaseService {
     }
 
     public MemberOperationPojo addBulkMember(List<Member> memberList, String role, Logger LOGGER) {
-        LOGGER.log(Level.INFO, environment.getProperty(role + "_bulkMemberAddingMethod"));
+        LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingMethod","en"));
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
         List<Member> savedMemberList = new ArrayList<>();
         try {
             for (Member member : memberList) {
                 MemberOperationPojo addOneMemberOperationPojo = addOneMember(member, role, LOGGER);
                 if (!ObjectUtils.isEmpty(addOneMemberOperationPojo.getErrorCode())) {
-                    throw new CustomException(addOneMemberOperationPojo.getErrorCode(), environment.getProperty(addOneMemberOperationPojo.getErrorCode()));
+                    throw new CustomException(addOneMemberOperationPojo.getErrorCode(), addOneMemberOperationPojo.getResult());
                 }
                 savedMemberList.add(member);
             }
-            memberOperationPojo.setResult(environment.getProperty(role + "_bulkMemberAddingSuccessfull"));
+            memberOperationPojo.setResult(resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingSuccessfull","en"));
             memberOperationPojo.setMemberList(savedMemberList);
-            LOGGER.log(Level.INFO, environment.getProperty(role + "_bulkMemberAddingSuccessfull") + memberList);
+            LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingSuccessfull","en") + memberList);
+        } catch (CustomException customException) {
+            LOGGER.log(Level.SEVERE, resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingFaled", "en") + customException.getErrorCode() + " " + customException.getErrorMessage());
+            memberOperationPojo.setErrorCode(customException.getErrorCode());
+            memberOperationPojo.setResult(customException.getErrorMessage());
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, environment.getProperty(role + "_bulkMemberAddingFaled") + e.getMessage());
+            LOGGER.log(Level.SEVERE, resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingFaled","en") + e.getMessage());
             memberOperationPojo.setResult(e.getMessage());
         }
         return memberOperationPojo;

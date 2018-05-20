@@ -41,7 +41,7 @@ public class MemberUpdateWebServiceEndpoint {
 
 	@RequestMapping(value = "/updateBulkAdminMember", method = RequestMethod.PUT)
 	private ResponseEntity<MemberOperationPojo> updateBulkAdminMember(@RequestBody List<Member> memberListForUpdate) {
-		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateBulkUserMember(memberListForUpdate);
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateBulkAdminMember(memberListForUpdate);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 

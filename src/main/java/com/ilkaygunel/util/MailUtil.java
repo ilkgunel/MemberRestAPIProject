@@ -30,23 +30,18 @@ public class MailUtil {
         return simpleMailMessage;
     }
 
-    public void sendActivationMail(String emailAddress, String activationToken) {
+    public void sendActivationMail(String emailAddress, String activationToken) throws MessagingException {
         SimpleMailMessage simpleMailMessage = templateForSimpleMessage();
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-            mimeMessageHelper.setText(String.format(simpleMailMessage.getText(), activationToken), true);
-            mimeMessageHelper.setTo(emailAddress);
-            mimeMessage.setSubject(simpleMailMessage.getSubject());
 
-            FileSystemResource file
-                    = new FileSystemResource(new File("/home/ilkaygunel/Desktop/notlar.txt"));
-            mimeMessageHelper.addAttachment("Notes", file);
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+        mimeMessageHelper.setText(String.format(simpleMailMessage.getText(), activationToken), true);
+        mimeMessageHelper.setTo(emailAddress);
+        mimeMessage.setSubject(simpleMailMessage.getSubject());
 
-        } catch (MessagingException messagingException) {
-            loggingUtil.getLoggerForEmailSending(this.getClass()).log(Level.SEVERE, messagingException.getMessage());
-
-        }
+        /*FileSystemResource file
+                = new FileSystemResource(new File("/home/ilkaygunel/Desktop/notlar.txt"));
+        mimeMessageHelper.addAttachment("Notes", file);*/
         mailSender.send(mimeMessage);
     }
 

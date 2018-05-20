@@ -24,10 +24,10 @@ Sample JSON's:
 One Member Save: {"firstName": "Michael","lastName": "Schumacher","memberLanguageCode":"tr","email":"michael.schumacher@michaelschumacher.com","password":"TEST1234"}
 
 Bulk Member Save:[
-					{"firstName": "Mika","lastName": "Hakkinen","email":"mika.hakkinen@mikahakkinen.com","password":"TEST1234"}
-					{"firstName": "David","lastName": "Coulthard","email":"david.coulthard@davidcoulthard.com","password":"TEST1234"}
-					{"firstName": "Ralf","lastName": "Schumacher","email":"ralf.schumacher@ralfschumacher.com","password":"TEST1234"}
-				  ]
+                 	{"firstName": "Mika","lastName": "Hakkinen","memberLanguageCode":"tr","email":"ilkay.gunel@kod5.org","password":"TEST1234"},
+                 	{"firstName": "David","lastName": "Coulthard","memberLanguageCode":"en","email":"ilkay_gunel34@hotmail.com","password":"TEST1234"},
+                 	{"firstName": "Ralf","lastName": "Schumacher","memberLanguageCode":"tr","email":"ilkgunel93@gmail.com","password":"TEST1234"}
+                 ]
 
 One Member Update: {"id":2,"firstName": "Rubens","lastName": "Barichello"}
 
