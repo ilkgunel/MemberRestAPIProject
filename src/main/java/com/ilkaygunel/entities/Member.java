@@ -1,8 +1,14 @@
 package com.ilkaygunel.entities;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Member {
@@ -24,8 +30,8 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return String.format("Member [id=%d, firstName='%s', lastName='%s', email='%s']", id, firstName,
-				lastName, email);
+		return String.format("Member [id=%d, firstName='%s', lastName='%s', email='%s']", id, firstName, lastName,
+				email);
 	}
 
 	public Long getId() {
