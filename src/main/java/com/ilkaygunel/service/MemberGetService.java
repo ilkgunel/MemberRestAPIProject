@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.repository.MemberRepository;
-import com.ilkaygunel.util.LoggingUtil;
 
 @Service
 public class MemberGetService extends BaseService {
