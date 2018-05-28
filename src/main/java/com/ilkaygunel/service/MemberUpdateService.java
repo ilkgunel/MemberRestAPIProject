@@ -38,8 +38,8 @@ public class MemberUpdateService extends BaseService {
 		try {
 			LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(
 					roleForCheck + "_memberUpdatingMethod", memberForUpdate.getMemberLanguageCode()));
-			LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(
-					roleForCheck + "_memberInformationBeforeUpdate", memberForUpdate.getMemberLanguageCode()));
+			LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty("memberInformationBeforeUpdate",
+					memberForUpdate.getMemberLanguageCode()));
 
 			memberUtil.checkMember(memberForUpdate.getId(), roleForCheck);
 			memberRepository.save(memberForUpdate);
@@ -73,7 +73,7 @@ public class MemberUpdateService extends BaseService {
 					.setResult(
 							ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
 									+ resourceBundleMessageManager.getValueOfProperty(
-											role + "_bulkMemberDeletingSuccessfull", member.getMemberLanguageCode())
+											role + "_memberUpdatingSuccessful", member.getMemberLanguageCode())
 									+ temporaryMemberOperationPojo.getMember());
 		}
 		return memberOperationPojo;

@@ -31,6 +31,11 @@ Bulk Member Save:[
 
 One Member Update: {"id":2,"firstName": "Rubens","lastName": "Barichello"}
 
+Bulk Member Update: [
+						{"id":2,"firstName": "Rubens","lastName": "Barichello"},
+						{"id":3,"firstName": "Mark","lastName": "Webber"}
+					]
+
 One Member Delete: {"id": 6}
 
 Bulk Member Delete: [{"id": 7},{"id": 8}]
