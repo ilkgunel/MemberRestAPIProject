@@ -1,5 +1,6 @@
 package com.ilkaygunel.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +12,7 @@ import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.pojo.MemberOperationPojo;
+import com.ilkaygunel.wrapper.MemberIdWrapp;
 
 @Service
 public class MemberUpdateService extends BaseService {
@@ -67,14 +69,26 @@ public class MemberUpdateService extends BaseService {
 
 	private MemberOperationPojo updateBulkMember(List<Member> memberListForUpdate, String role) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+		List<MemberIdWrapp> memberIdList = new ArrayList<>();
 		for (Member member : memberListForUpdate) {
-			MemberOperationPojo temporaryMemberOperationPojo = updateOneMember(member, role);
-			memberOperationPojo
-					.setResult(
-							ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
-									+ resourceBundleMessageManager.getValueOfProperty(
-											role + "_memberUpdatingSuccessful", member.getMemberLanguageCode())
-									+ temporaryMemberOperationPojo.getMember());
+			MemberIdWrapp memberIdWrapp = new MemberIdWrapp();
+			memberIdWrapp.setId(member.getId());
+			memberIdList.add(memberIdWrapp);
+		}
+		MemberOperationPojo updateMemberOpertaionPojo = memberUtil.checkMemberExistenceOnMemberList(memberIdList, role);
+		if (ObjectUtils.isEmpty(updateMemberOpertaionPojo.getErrorCode())) {
+			for (Member member : memberListForUpdate) {
+				MemberOperationPojo temporaryMemberOperationPojo = updateOneMember(member, role);
+				memberOperationPojo
+						.setResult(
+								ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
+										+ resourceBundleMessageManager.getValueOfProperty(
+												role + "_memberUpdatingSuccessful", member.getMemberLanguageCode())
+										+ temporaryMemberOperationPojo.getMember());
+			}
+		} else {
+			memberOperationPojo.setErrorCode(updateMemberOpertaionPojo.getErrorCode());
+			memberOperationPojo.setResult(updateMemberOpertaionPojo.getResult());
 		}
 		return memberOperationPojo;
 	}
