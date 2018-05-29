@@ -29,7 +29,15 @@ Bulk Member Save:[
                  	{"firstName": "Ralf","lastName": "Schumacher","memberLanguageCode":"tr","email":"ilkgunel93@gmail.com","password":"TEST1234"}
                  ]
 
-One Member Update: {"id":2,"firstName": "Rubens","lastName": "Barichello"}
+One Member Update: {
+            "id": 2,
+            "firstName": "Rubens",
+            "lastName": "Barichello",
+            "email": "ilkay.gunel@kod5.org",
+            "enabled": false,
+            "password": "$2a$10$v8Wq.DuTJH.VHbOKC26t4ekondD47BlJ..UWrvtl1wwKgU3rZgSr2",
+            "memberLanguageCode": "tr"
+}
 
 Bulk Member Update: [
 						{"id":2,"firstName": "Rubens","lastName": "Barichello"},

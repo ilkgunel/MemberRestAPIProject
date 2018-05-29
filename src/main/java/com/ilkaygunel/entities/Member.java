@@ -3,6 +3,7 @@ package com.ilkaygunel.entities;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,13 +20,21 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@Column(nullable = false)
 	private String firstName;
+	@Column(nullable = false)
 	private String lastName;
+	@Column(nullable = false, updatable = false)
 	private String email;
+	@Column(nullable = false)
 	private boolean enabled;
+	@Column(nullable = false)
 	private String password;
+	@Column(nullable = false)
 	private String memberLanguageCode;
+	@Column(updatable = false)
 	private String activationToken;
+	@Column(updatable = false)
 	private LocalDateTime activationTokenExpDate;
 
 	@OneToOne(cascade = CascadeType.ALL)
