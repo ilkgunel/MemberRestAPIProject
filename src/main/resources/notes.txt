@@ -24,3 +24,4 @@ git config --global user.name "Your Name"
 10)componentScan *'lı hale getirildi. (yapıldı)
 11) valid e-mail kontrolü yapılacak (yapıldı)
 12)Spring Secuirty Spring Data'ya bağlanabilir mi araştırılacak.(yapıldı)
+13) Null alanlar response içinde dönülmeyecek(yapıldı)
