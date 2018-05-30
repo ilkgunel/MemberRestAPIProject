@@ -115,4 +115,8 @@ public class MemberUtil {
 			}
 		}
 	}
+
+	public boolean isRequestContainsPassword(Member memberForUpdate) {
+		return ObjectUtils.isEmpty(memberForUpdate.getPassword());
+	}
 }
