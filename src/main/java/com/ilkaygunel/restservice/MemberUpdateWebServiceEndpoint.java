@@ -22,14 +22,14 @@ public class MemberUpdateWebServiceEndpoint {
 	private MemberUpdateService memberUpdateServices;
 
 	@RequestMapping(value = "/updateOneUserMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateOneUserMember(@RequestBody Member member) {
-		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneUserMember(member);
+	private ResponseEntity<MemberOperationPojo> updateOneUserMember(@RequestBody List<Member> memberListForUpdate) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneUserMember(memberListForUpdate);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateOneAdminMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateOneAdminMember(@RequestBody Member member) {
-		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneAdminMember(member);
+	private ResponseEntity<MemberOperationPojo> updateOneAdminMember(@RequestBody List<Member> memberListForUpdate) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateOneAdminMember(memberListForUpdate);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
