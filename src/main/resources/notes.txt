@@ -25,3 +25,4 @@ git config --global user.name "Your Name"
 11) valid e-mail kontrolü yapılacak (yapıldı)
 12)Spring Secuirty Spring Data'ya bağlanabilir mi araştırılacak.(yapıldı)
 13) Null alanlar response içinde dönülmeyecek(yapıldı)
+14) update öncesi check işlemine password gelmişse eklenecek

@@ -1,5 +1,6 @@
 package com.ilkaygunel.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -118,5 +119,40 @@ public class MemberUtil {
 
 	public boolean isRequestContainsPassword(Member memberForUpdate) {
 		return ObjectUtils.isEmpty(memberForUpdate.getPassword());
+	}
+
+	public MemberOperationPojo checkMemberListContainPassowrdForUpdate(List<Member> memberList, Logger LOGGER) {
+		MemberOperationPojo passwordChecking = new MemberOperationPojo();
+		try {
+			for (Member checkingMember : memberList) {
+				if (!isRequestContainsPassword(checkingMember)) {
+
+					throw new CustomException(ErrorCodes.ERROR_12.getErrorCode(),
+							resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_12.getErrorCode(),
+									checkingMember.getMemberLanguageCode()));
+				}
+			}
+		} catch (CustomException customException) {
+			passwordChecking.setErrorCode(customException.getErrorCode());
+			passwordChecking.setResult(customException.getErrorMessage());
+		}
+		return passwordChecking;
+	}
+
+	public List<MemberIdWrapp> getMemberIdListFromMemerList(List<Member> members) {
+		List<MemberIdWrapp> memberIdList = new ArrayList<>();
+		for (Member member : members) {
+			MemberIdWrapp memberIdWrapp = new MemberIdWrapp();
+			memberIdWrapp.setId(member.getId());
+			memberIdList.add(memberIdWrapp);
+		}
+		return memberIdList;
+	}
+
+	public List<Member> removeFieldsFromReturningMember(List<Member> memberList) {
+		for (Member member : memberList) {
+			member.setPassword(null);
+		}
+		return memberList;
 	}
 }

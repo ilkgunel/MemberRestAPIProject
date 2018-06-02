@@ -10,8 +10,8 @@ import org.springframework.util.ObjectUtils;
 
 import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
+import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
-import com.ilkaygunel.wrapper.MemberIdWrapp;
 
 @Service
 public class MemberUpdateService extends BaseService {
@@ -32,43 +32,25 @@ public class MemberUpdateService extends BaseService {
 		return updateBulkMember(memberListForUpdate, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
-	private void updateMember(Member memberForUpdate, String roleForCheck) {
-		Logger LOGGER = loggingUtil.getLoggerForMemberUpdating(this.getClass());
-		try {
-			LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(
-					roleForCheck + "_memberUpdatingMethod", memberForUpdate.getMemberLanguageCode()));
-			LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty("memberInformationBeforeUpdate",
-					memberForUpdate.getMemberLanguageCode()));
-			memberRepository.save(memberForUpdate);
-			LOGGER.log(Level.INFO,
-					resourceBundleMessageManager.getValueOfProperty(roleForCheck + "_memberUpdatingSuccessful",
-							memberForUpdate.getMemberLanguageCode())
-							+ memberRepository.findOne(memberForUpdate.getId()));
-		} catch (Exception ex) {
-			LOGGER.log(Level.SEVERE,
-					resourceBundleMessageManager.getValueOfProperty(roleForCheck + "_memberUpdatingFailed",
-							memberForUpdate.getMemberLanguageCode()) + memberRepository.findOne(memberForUpdate.getId())
-							+ ex.getMessage());
-		}
-	}
-
 	private MemberOperationPojo updateBulkMember(List<Member> memberListForUpdate, String role) {
-		// Create memberIdList and check member existence
-		List<MemberIdWrapp> memberIdList = new ArrayList<>();
-		for (Member member : memberListForUpdate) {
-			MemberIdWrapp memberIdWrapp = new MemberIdWrapp();
-			memberIdWrapp.setId(member.getId());
-			memberIdList.add(memberIdWrapp);
-		}
-		MemberOperationPojo pojoForMemberExistingChecking = memberUtil.checkMemberExistenceOnMemberList(memberIdList,
-				role);
 		// Get logger
 		Logger LOGGER = loggingUtil.getLoggerForMemberUpdating(this.getClass());
 		//
-		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		Member memberForUpdate = null;
+		MemberOperationPojo pojoForMemberExistingChecking = memberUtil
+				.checkMemberExistenceOnMemberList(memberUtil.getMemberIdListFromMemerList(memberListForUpdate), role);
+		MemberOperationPojo pojoForPasswordContainsChecking = memberUtil
+				.checkMemberListContainPassowrdForUpdate(memberListForUpdate, LOGGER);
 
-		if (ObjectUtils.isEmpty(pojoForMemberExistingChecking.getErrorCode())) {
+		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+
+		if (!ObjectUtils.isEmpty(pojoForMemberExistingChecking.getErrorCode())) {
+			memberOperationPojo.setErrorCode(pojoForMemberExistingChecking.getErrorCode());
+			memberOperationPojo.setResult(pojoForMemberExistingChecking.getResult());
+		} else if (!ObjectUtils.isEmpty(pojoForPasswordContainsChecking.getErrorCode())) {
+			memberOperationPojo.setErrorCode(pojoForPasswordContainsChecking.getErrorCode());
+			memberOperationPojo.setResult(pojoForPasswordContainsChecking.getResult());
+		} else {
+			Member memberForUpdate = null;
 			try {
 				List<Member> updatedMemberList = new ArrayList<>();
 				for (Member member : memberListForUpdate) {
@@ -79,18 +61,31 @@ public class MemberUpdateService extends BaseService {
 				memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
 						+ resourceBundleMessageManager.getValueOfProperty(role + "_memberUpdatingSuccessful",
 								updatedMemberList.get(0).getMemberLanguageCode()));
-				memberOperationPojo.setMemberList(updatedMemberList);
+				memberOperationPojo.setMemberList(memberUtil.removeFieldsFromReturningMember(updatedMemberList));
 			} catch (Exception ex) {
+				memberOperationPojo.setErrorCode(ErrorCodes.ERROR_10.getErrorCode());
+				memberOperationPojo.setResult(ex.getMessage());
 				LOGGER.log(Level.SEVERE,
 						resourceBundleMessageManager.getValueOfProperty(role + "_memberUpdatingFailed",
 								memberForUpdate.getMemberLanguageCode())
 								+ memberRepository.findOne(memberForUpdate.getId()) + ex.getMessage());
 			}
 
-		} else {
-			memberOperationPojo.setErrorCode(pojoForMemberExistingChecking.getErrorCode());
-			memberOperationPojo.setResult(pojoForMemberExistingChecking.getResult());
 		}
 		return memberOperationPojo;
+	}
+
+	private void updateMember(Member memberForUpdate, String roleForCheck) {
+		Logger LOGGER = loggingUtil.getLoggerForMemberUpdating(this.getClass());
+		LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(roleForCheck + "_memberUpdatingMethod",
+				memberForUpdate.getMemberLanguageCode()));
+		LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty("memberInformationBeforeUpdate",
+				memberForUpdate.getMemberLanguageCode()));
+		memberForUpdate.setPassword(memberRepository.getPasswordOfMember(memberForUpdate.getId()));
+		memberRepository.save(memberForUpdate);
+		LOGGER.log(Level.INFO,
+				resourceBundleMessageManager.getValueOfProperty(roleForCheck + "_memberUpdatingSuccessful",
+						memberForUpdate.getMemberLanguageCode()) + memberRepository.findOne(memberForUpdate.getId()));
+
 	}
 }
