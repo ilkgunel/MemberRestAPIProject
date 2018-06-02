@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -33,8 +34,10 @@ public class Member {
 	@Column(nullable = false)
 	private String memberLanguageCode;
 	@Column(updatable = false)
+	@JsonIgnore
 	private String activationToken;
 	@Column(updatable = false)
+	@JsonIgnore
 	private LocalDateTime activationTokenExpDate;
 
 	@OneToOne(cascade = CascadeType.ALL)

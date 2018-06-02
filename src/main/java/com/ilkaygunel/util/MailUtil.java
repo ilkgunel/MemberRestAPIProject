@@ -20,7 +20,7 @@ public class MailUtil {
 		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 		simpleMailMessage.setSubject("Hesabınızı Aktifleştirin");
 		simpleMailMessage.setText(
-				"Hesabınızın aktifleştirilmesi için bu linke tıklayınız: \nhttp://localhost:8080/MemberRestAPIProject/activateMemberWebServiceEndpoint/activateMember?activationToken=%s/");
+				"Hesabınızın aktifleştirilmesi için bu linke tıklayınız: \nhttp://localhost:8080/MemberRestAPIProject/activateMemberWebServiceEndpoint/activateMember?activationToken=%s");
 
 		return simpleMailMessage;
 	}
