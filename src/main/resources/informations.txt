@@ -1,9 +1,7 @@
 Links:
 	For Saving:
-		http://localhost:8080/MemberRestAPIProject/memberPostWebServiceEndPoint/saveOneUserMember
-		http://localhost:8080/MemberRestAPIProject/memberPostWebServiceEndPoint/saveOneAdminMember
-		http://localhost:8080/MemberRestAPIProject/memberPostWebServiceEndPoint/saveBulkUserMember
-		http://localhost:8080/MemberRestAPIProject/memberPostWebServiceEndPoint/saveBulkAdminMember
+		http://localhost:8080/MemberRestAPIProject/memberPostWebServiceEndPoint/saveUserMember
+		http://localhost:8080/MemberRestAPIProject/memberPostWebServiceEndPoint/saveAdminMember
 	For Getting:
 		http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getAllMembers
 		http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getMemberViaFirstName?firstName=ilkay

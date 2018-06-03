@@ -20,27 +20,15 @@ public class MemberSaveWebServiceEndPoint {
 	@Autowired
 	private MemberSaveService memberSaveService;
 
-	@RequestMapping(value = "/saveOneUserMember", method = RequestMethod.POST)
-	public ResponseEntity<MemberOperationPojo> saveOneUserMember(@RequestBody Member member) {
-		MemberOperationPojo memberOperationPojo = memberSaveService.addOneUserMember(member);
+	@RequestMapping(value = "/saveUserMember", method = RequestMethod.POST)
+	public ResponseEntity<MemberOperationPojo> saveUserMember(@RequestBody List<Member> memberList) {
+		MemberOperationPojo memberOperationPojo = memberSaveService.addUserMember(memberList);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/saveOneAdminMember", method = RequestMethod.POST)
-	public ResponseEntity<MemberOperationPojo> saveOneAdminMember(@RequestBody Member member) {
-		MemberOperationPojo memberOperationPojo = memberSaveService.addOneAdminMember(member);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/saveBulkUserMember", method = RequestMethod.POST)
-	public ResponseEntity<MemberOperationPojo> saveBulkUserMember(@RequestBody List<Member> memberList) {
-		MemberOperationPojo memberOperationPojo = memberSaveService.addBulkUserMember(memberList);
-		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/saveBulkAdminMember", method = RequestMethod.POST)
-	public ResponseEntity<MemberOperationPojo> saveBulkAdminMember(@RequestBody List<Member> memberList) {
-		MemberOperationPojo memberOperationPojo = memberSaveService.addBulkAdminMember(memberList);
+	@RequestMapping(value = "/saveAdminMember", method = RequestMethod.POST)
+	public ResponseEntity<MemberOperationPojo> saveAdminMember(@RequestBody List<Member> memberList) {
+		MemberOperationPojo memberOperationPojo = memberSaveService.addAdminMember(memberList);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 }

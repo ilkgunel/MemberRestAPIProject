@@ -107,7 +107,7 @@ public class MemberUtil {
 		return memberOperationPojo;
 	}
 
-	public void checkEmailAddressOnMemberList(List<Member> memberList, Logger LOGGER) throws CustomException {
+	public void checkEmailAddressAndLanguageOnMemberList(List<Member> memberList, Logger LOGGER) throws CustomException {
 		MemberOperationPojo memberOperationPojo = null;
 		for (Member member : memberList) {
 			memberOperationPojo = checkEmailAddressAndLanguage(member, LOGGER);
