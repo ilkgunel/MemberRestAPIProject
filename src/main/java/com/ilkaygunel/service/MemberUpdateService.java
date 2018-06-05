@@ -16,19 +16,11 @@ import com.ilkaygunel.pojo.MemberOperationPojo;
 @Service
 public class MemberUpdateService extends BaseService {
 
-	public MemberOperationPojo updateOneUserMember(List<Member> memberListForUpdate) {
+	public MemberOperationPojo updateUserMember(List<Member> memberListForUpdate) {
 		return updateBulkMember(memberListForUpdate, ConstantFields.ROLE_USER.getConstantField());
 	}
 
-	public MemberOperationPojo updateOneAdminMember(List<Member> memberListForUpdate) {
-		return updateBulkMember(memberListForUpdate, ConstantFields.ROLE_ADMIN.getConstantField());
-	}
-
-	public MemberOperationPojo updateBulkUserMember(List<Member> memberListForUpdate) {
-		return updateBulkMember(memberListForUpdate, ConstantFields.ROLE_USER.getConstantField());
-	}
-
-	public MemberOperationPojo updateBulkAdminMember(List<Member> memberListForUpdate) {
+	public MemberOperationPojo updateAdminMember(List<Member> memberListForUpdate) {
 		return updateBulkMember(memberListForUpdate, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 

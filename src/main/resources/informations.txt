@@ -7,10 +7,8 @@ Links:
 		http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getMemberViaFirstName?firstName=ilkay
 		http://localhost:8080/MemberRestAPIProject/memberGetWebServiceEndPoint/getMemberViaId/1
 	For Updating:
-		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateOneUserMember
-		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateOneAdminMember
-		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateBulkUserMember
-		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateBulkAdminMember
+		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateUserMember
+		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateAdminMember
 	For Deleting:
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneUserMember/2
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneAdminMember/5

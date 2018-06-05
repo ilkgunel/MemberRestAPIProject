@@ -11,7 +11,6 @@ import javax.mail.MessagingException;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
@@ -24,15 +23,11 @@ import com.ilkaygunel.pojo.MemberOperationPojo;
 public class MemberSaveService extends BaseService {
 
 	public MemberOperationPojo addUserMember(List<Member> memberList) {
-		MemberOperationPojo memberOperationPojo = addBulkMember(memberList,
-				ConstantFields.ROLE_USER.getConstantField());
-		return memberOperationPojo;
+		return addBulkMember(memberList, ConstantFields.ROLE_USER.getConstantField());
 	}
 
 	public MemberOperationPojo addAdminMember(List<Member> memberList) {
-		MemberOperationPojo memberOperationPojo = addBulkMember(memberList,
-				ConstantFields.ROLE_ADMIN.getConstantField());
-		return memberOperationPojo;
+		return addBulkMember(memberList, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
 	public MemberOperationPojo addBulkMember(List<Member> memberList, String role) {
@@ -77,7 +72,7 @@ public class MemberSaveService extends BaseService {
 		addMemberRolesObject(role, member);
 		addActivationToken(member);
 		memberRepository.save(member);
-		//mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
+		// mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
 		memberOperationPojo.setResult(resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull",
 				member.getMemberLanguageCode()));
 		LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull",
