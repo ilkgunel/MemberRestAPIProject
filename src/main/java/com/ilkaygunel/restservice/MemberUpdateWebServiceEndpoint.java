@@ -21,13 +21,13 @@ public class MemberUpdateWebServiceEndpoint {
 	@Autowired
 	private MemberUpdateService memberUpdateServices;
 
-	@RequestMapping(value = "/updateBulkUserMember", method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateUserMember", method = RequestMethod.PUT)
 	private ResponseEntity<MemberOperationPojo> updateBulkUserMember(@RequestBody List<Member> memberListForUpdate) {
 		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateUserMember(memberListForUpdate);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/updateBulkAdminMember", method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateAdminMember", method = RequestMethod.PUT)
 	private ResponseEntity<MemberOperationPojo> updateBulkAdminMember(@RequestBody List<Member> memberListForUpdate) {
 		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateAdminMember(memberListForUpdate);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);

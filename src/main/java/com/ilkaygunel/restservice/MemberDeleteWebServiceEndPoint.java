@@ -21,13 +21,13 @@ public class MemberDeleteWebServiceEndPoint {
 	@Autowired
 	private MemberDeleteService memberDeleteService;
 
-	@RequestMapping(value = "/deleteBulkUserMember", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteUserMember", method = RequestMethod.DELETE)
 	public ResponseEntity<MemberOperationPojo> deleteBulkUserMember(@RequestBody List<MemberIdWrapp> memberIdList) {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteUserMember(memberIdList);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/deleteBulkAdminMember", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteAdminMember", method = RequestMethod.DELETE)
 	public ResponseEntity<MemberOperationPojo> deleteBulkAdminMember(@RequestBody List<MemberIdWrapp> memberIdList) {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteAdminMember(memberIdList);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
