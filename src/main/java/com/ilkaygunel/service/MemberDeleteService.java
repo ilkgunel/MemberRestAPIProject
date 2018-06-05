@@ -17,23 +17,11 @@ import com.ilkaygunel.wrapper.MemberIdWrapp;
 @Service
 public class MemberDeleteService extends BaseService {
 
-	public MemberOperationPojo deleteOneUserMember(long memberId) {
-		MemberOperationPojo memberOperationPojo = deleteOneMember(memberId,
-				ConstantFields.ROLE_USER.getConstantField());
-		return memberOperationPojo;
-	}
-
-	public MemberOperationPojo deleteOneAdminMember(long memberId) {
-		MemberOperationPojo memberOperationPojo = deleteOneMember(memberId,
-				ConstantFields.ROLE_ADMIN.getConstantField());
-		return memberOperationPojo;
-	}
-
-	public MemberOperationPojo deleteBulkUserMember(List<MemberIdWrapp> memberIdList) {
+	public MemberOperationPojo deleteUserMember(List<MemberIdWrapp> memberIdList) {
 		return deleteBulkMember(memberIdList, ConstantFields.ROLE_USER.getConstantField());
 	}
 
-	public MemberOperationPojo deleteBulkAdminMember(List<MemberIdWrapp> memberIdList) {
+	public MemberOperationPojo deleteAdminMember(List<MemberIdWrapp> memberIdList) {
 		return deleteBulkMember(memberIdList, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
