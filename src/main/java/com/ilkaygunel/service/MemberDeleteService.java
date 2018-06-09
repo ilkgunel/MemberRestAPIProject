@@ -25,51 +25,49 @@ public class MemberDeleteService extends BaseService {
 		return deleteBulkMember(memberIdList, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
-	public MemberOperationPojo deleteOneMember(long memberId, String roleOfMember) {
-		List<Member> deletedMemberList = new ArrayList<>();
-
+	public MemberOperationPojo deleteOneMember(long memberId, String roleOfMember) throws CustomException, Exception {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		Logger LOGGER = loggingUtil.getLoggerForMemberDeleting(this.getClass());
-		try {
-			LOGGER.log(Level.INFO, environment.getProperty(roleOfMember + "_memberDeletingMethod"));
-			Member memberForDelete = memberUtil.checkMember(memberId, roleOfMember);
-			memberRepository.delete(memberId);
-			deletedMemberList.add(memberForDelete);
-			memberOperationPojo.setMemberList(deletedMemberList);
-			memberOperationPojo
-					.setResult(environment.getProperty(roleOfMember + "_memberDeletingSuccessfull") + memberForDelete);
-			LOGGER.log(Level.INFO,
-					environment.getProperty(roleOfMember + "_memberDeletingSuccessfull") + memberForDelete);
-		} catch (CustomException e) {
-			LOGGER.log(Level.SEVERE, environment.getProperty(roleOfMember + "_memberDeletingFailed") + e.getErrorCode()
-					+ " " + e.getErrorMessage());
-			memberOperationPojo.setErrorCode(e.getErrorCode());
-			memberOperationPojo.setResult(e.getErrorMessage());
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, environment.getProperty(roleOfMember + "_memberDeletingFailed") + e.getMessage());
-			memberOperationPojo.setResult(e.getMessage());
-		}
+		Member memberForDelete = memberUtil.checkMember(memberId, roleOfMember);
+		memberRepository.delete(memberId);
+		memberOperationPojo.setMember(memberForDelete);
+		memberOperationPojo
+				.setResult(resourceBundleMessageManager.getValueOfProperty(roleOfMember + "_memberDeletingSuccessfull",
+						memberForDelete.getMemberLanguageCode()) + memberForDelete);
 		return memberOperationPojo;
 	}
 
 	private MemberOperationPojo deleteBulkMember(List<MemberIdWrapp> memberIdList, String roleForCheck) {
+		Logger LOGGER = loggingUtil.getLoggerForMemberDeleting(this.getClass());
 		MemberOperationPojo deleteMemberOpertaionPojo = memberUtil.checkMemberExistenceOnMemberList(memberIdList,
 				roleForCheck);
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-		if (ObjectUtils.isEmpty(deleteMemberOpertaionPojo.getErrorCode())) {
-			List<Member> deletedMemberList = new ArrayList<>();
-			for (MemberIdWrapp memberIdWrapp : memberIdList) {
-				MemberOperationPojo temporaryMemberOperationPojo = deleteOneMember(memberIdWrapp.getId(), roleForCheck);
-				deletedMemberList.add(temporaryMemberOperationPojo.getMemberList().get(0));
-			}
-			memberOperationPojo.setResult(resourceBundleMessageManager.getValueOfProperty(
-					roleForCheck + "_bulkMemberDeletingSuccessfull", deletedMemberList.get(0).getMemberLanguageCode()));
-			memberOperationPojo.setMemberList(deletedMemberList);
+		try {
+			if (ObjectUtils.isEmpty(deleteMemberOpertaionPojo.getErrorCode())) {
+				List<Member> deletedMemberList = new ArrayList<>();
+				for (MemberIdWrapp memberIdWrapp : memberIdList) {
+					MemberOperationPojo temporaryMemberOperationPojo = deleteOneMember(memberIdWrapp.getId(),
+							roleForCheck);
+					deletedMemberList.add(temporaryMemberOperationPojo.getMember());
+				}
+				memberOperationPojo.setResult(
+						resourceBundleMessageManager.getValueOfProperty(roleForCheck + "_bulkMemberDeletingSuccessfull",
+								deletedMemberList.get(0).getMemberLanguageCode()));
+				memberOperationPojo.setMemberList(deletedMemberList);
 
-		} else {
-			memberOperationPojo.setErrorCode(deleteMemberOpertaionPojo.getErrorCode());
-			memberOperationPojo.setResult(deleteMemberOpertaionPojo.getResult());
+			} else {
+				memberOperationPojo.setErrorCode(deleteMemberOpertaionPojo.getErrorCode());
+				memberOperationPojo.setResult(deleteMemberOpertaionPojo.getResult());
+			}
+		} catch (CustomException e) {
+			LOGGER.log(Level.SEVERE, environment.getProperty(roleForCheck + "_memberDeletingFailed") + e.getErrorCode()
+					+ " " + e.getErrorMessage());
+			memberOperationPojo.setErrorCode(e.getErrorCode());
+			memberOperationPojo.setResult(e.getErrorMessage());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, environment.getProperty(roleForCheck + "_memberDeletingFailed") + e.getMessage());
+			memberOperationPojo.setResult(e.getMessage());
 		}
+
 		return memberOperationPojo;
 	}
 

@@ -33,33 +33,6 @@ public class MemberUtil {
 	@Autowired
 	private ResourceBundleMessageManager resourceBundleMessageManager;
 
-	public Member checkMember(Long memberId, String roleForCheck) throws Exception {
-		Member member = memberRepository.findOne(memberId);
-
-		if (member == null) {
-			if (ConstantFields.ROLE_USER.getConstantField().equals(roleForCheck)) {
-				throw new CustomException(ErrorCodes.ERROR_01.getErrorCode(),
-						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_01.getErrorCode(), "en"));
-			} else {
-				throw new CustomException(ErrorCodes.ERROR_02.getErrorCode(),
-						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_02.getErrorCode(), "en"));
-			}
-		} else {
-			MemberRoles memberRoles = memberRoleSaveService.getMemberRoleWithEmail(member.getEmail());
-			if (ConstantFields.ROLE_USER.getConstantField().equals(roleForCheck)
-					&& !ConstantFields.ROLE_USER.getConstantField().equals(memberRoles.getRole())) {
-				throw new CustomException(ErrorCodes.ERROR_03.getErrorCode(),
-						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_03.getErrorCode(), "en"));
-			} else if (ConstantFields.ROLE_ADMIN.getConstantField().equals(roleForCheck)
-					&& !ConstantFields.ROLE_ADMIN.getConstantField().equals(memberRoles.getRole())) {
-				throw new CustomException(ErrorCodes.ERROR_04.getErrorCode(),
-						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_04.getErrorCode(), "en"));
-			}
-		}
-
-		return member;
-	}
-
 	public boolean isValidEmailAddress(String emailAddress) {
 		Pattern emailPattern = Pattern.compile(ConstantFields.EMAIL_CHECK_PATTERN.getConstantField());
 		Matcher emailMatcher = emailPattern.matcher(emailAddress);
@@ -107,7 +80,35 @@ public class MemberUtil {
 		return memberOperationPojo;
 	}
 
-	public void checkEmailAddressAndLanguageOnMemberList(List<Member> memberList, Logger LOGGER) throws CustomException {
+	public Member checkMember(Long memberId, String roleForCheck) throws Exception {
+		Member member = memberRepository.findOne(memberId);
+
+		if (member == null) {
+			if (ConstantFields.ROLE_USER.getConstantField().equals(roleForCheck)) {
+				throw new CustomException(ErrorCodes.ERROR_01.getErrorCode(),
+						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_01.getErrorCode(), "en"));
+			} else {
+				throw new CustomException(ErrorCodes.ERROR_02.getErrorCode(),
+						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_02.getErrorCode(), "en"));
+			}
+		} else {
+			MemberRoles memberRoles = memberRoleSaveService.getMemberRoleWithEmail(member.getEmail());
+			if (ConstantFields.ROLE_USER.getConstantField().equals(roleForCheck)
+					&& !ConstantFields.ROLE_USER.getConstantField().equals(memberRoles.getRole())) {
+				throw new CustomException(ErrorCodes.ERROR_03.getErrorCode(), resourceBundleMessageManager
+						.getValueOfProperty(ErrorCodes.ERROR_03.getErrorCode(), member.getMemberLanguageCode()));
+			} else if (ConstantFields.ROLE_ADMIN.getConstantField().equals(roleForCheck)
+					&& !ConstantFields.ROLE_ADMIN.getConstantField().equals(memberRoles.getRole())) {
+				throw new CustomException(ErrorCodes.ERROR_04.getErrorCode(), resourceBundleMessageManager
+						.getValueOfProperty(ErrorCodes.ERROR_04.getErrorCode(), member.getMemberLanguageCode()));
+			}
+		}
+
+		return member;
+	}
+
+	public void checkEmailAddressAndLanguageOnMemberList(List<Member> memberList, Logger LOGGER)
+			throws CustomException {
 		MemberOperationPojo memberOperationPojo = null;
 		for (Member member : memberList) {
 			memberOperationPojo = checkEmailAddressAndLanguage(member, LOGGER);
