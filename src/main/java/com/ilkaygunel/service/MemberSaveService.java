@@ -42,10 +42,10 @@ public class MemberSaveService extends BaseService {
 				savedMemberList.add(member);
 			}
 			memberOperationPojo.setResult(
-					resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingSuccessfull", "en"));
+					resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingSuccessfull", savedMemberList.get(0).getMemberLanguageCode()));
 			memberOperationPojo.setMemberList(memberUtil.removeFieldsFromReturningMember(savedMemberList));
 			LOGGER.log(Level.INFO,
-					resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingSuccessfull", "en")
+					resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingSuccessfull", savedMemberList.get(0).getMemberLanguageCode())
 							+ memberList);
 		} catch (CustomException customException) {
 			LOGGER.log(Level.SEVERE,
@@ -72,7 +72,7 @@ public class MemberSaveService extends BaseService {
 		addMemberRolesObject(role, member);
 		addActivationToken(member);
 		memberRepository.save(member);
-		// mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
+		mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
 		memberOperationPojo.setResult(resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull",
 				member.getMemberLanguageCode()));
 		LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull",

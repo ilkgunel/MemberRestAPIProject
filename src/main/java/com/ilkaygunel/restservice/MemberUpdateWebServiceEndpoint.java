@@ -2,6 +2,7 @@ package com.ilkaygunel.restservice;
 
 import java.util.List;
 
+import com.ilkaygunel.wrapper.MemberWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +25,14 @@ public class MemberUpdateWebServiceEndpoint {
 	private MemberUpdateService memberUpdateServices;
 
 	@RequestMapping(value = "/updateUserMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateBulkUserMember(@Valid @RequestBody List<Member> memberListForUpdate) {
-		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateUserMember(memberListForUpdate);
+	private ResponseEntity<MemberOperationPojo> updateBulkUserMember(@Valid @RequestBody MemberWrapper memberWrapper) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateUserMember(memberWrapper.getMemberList());
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateAdminMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateBulkAdminMember(@Valid @RequestBody List<Member> memberListForUpdate) {
-		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateAdminMember(memberListForUpdate);
+	private ResponseEntity<MemberOperationPojo> updateBulkAdminMember(@Valid @RequestBody MemberWrapper memberWrapper) {
+		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateAdminMember(memberWrapper.getMemberList());
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}
 

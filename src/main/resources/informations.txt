@@ -10,34 +10,35 @@ Links:
 		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateUserMember
 		http://localhost:8080/MemberRestAPIProject/memberUpdateWebServiceEndpoint/updateAdminMember
 	For Deleting:
-		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneUserMember/2
-		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteOneAdminMember/5
-		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteBulkUSerMember
-		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteBulkAdminMember
+		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteUserMember
+		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteAdminMember
 		
 Sample JSON's:
 
-One Member Save: {"firstName": "Michael","lastName": "Schumacher","memberLanguageCode":"tr","email":"michael.schumacher@michaelschumacher.com","password":"TEST1234"}
+One Member Save: {
+                 	"memberList":
+                 	[
+                 		{"firstName": "Michael","lastName": "Schumacher","memberLanguageCode":"tr","email":"ilkay.gunel@kod5.org","password":"TEST1234"}
+                 	]
 
-Bulk Member Save:[
+                 }
+
+Bulk Member Save:{"memberList":[
                  	{"firstName": "Mika","lastName": "Hakkinen","memberLanguageCode":"tr","email":"ilkay.gunel@kod5.org","password":"TEST1234"},
                  	{"firstName": "David","lastName": "Coulthard","memberLanguageCode":"en","email":"ilkay_gunel34@hotmail.com","password":"TEST1234"},
                  	{"firstName": "Ralf","lastName": "Schumacher","memberLanguageCode":"tr","email":"ilkgunel93@gmail.com","password":"TEST1234"}
-                 ]
+                 ]}
 
 One Member Update: {
             "id": 2,
             "firstName": "Rubens",
             "lastName": "Barichello",
-            "email": "ilkay.gunel@kod5.org",
-            "enabled": false,
-            "password": "$2a$10$v8Wq.DuTJH.VHbOKC26t4ekondD47BlJ..UWrvtl1wwKgU3rZgSr2",
             "memberLanguageCode": "tr"
 }
 
 Bulk Member Update: [
-						{"id":2,"firstName": "Rubens","lastName": "Barichello"},
-						{"id":3,"firstName": "Mark","lastName": "Webber"}
+						{"id":2,"firstName": "Rubens","lastName": "Barichello","memberLanguageCode": "tr"},
+						{"id":3,"firstName": "Mark","lastName": "Webber","memberLanguageCode": "tr"}
 					]
 
 One Member Delete: {"id": 6}

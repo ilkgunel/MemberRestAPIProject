@@ -74,6 +74,7 @@ public class MemberUpdateService extends BaseService {
 		LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty("memberInformationBeforeUpdate",
 				memberForUpdate.getMemberLanguageCode()));
 		memberForUpdate.setPassword(memberRepository.getPasswordOfMember(memberForUpdate.getId()));
+		memberForUpdate.setEnabled(memberRepository.getnabledOfMember(memberForUpdate.getId()));
 		memberRepository.save(memberForUpdate);
 		LOGGER.log(Level.INFO,
 				resourceBundleMessageManager.getValueOfProperty(roleForCheck + "_memberUpdatingSuccessful",

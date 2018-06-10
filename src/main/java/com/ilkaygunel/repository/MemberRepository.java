@@ -19,4 +19,7 @@ public interface MemberRepository extends CrudRepository<Member, Long> {
 
 	@Query("select m.password from Member m where m.id = :id")
 	String getPasswordOfMember(@Param("id") long id);
+
+	@Query("select m.enabled from Member m where m.id = :id")
+	boolean getnabledOfMember(@Param("id") long id);
 }

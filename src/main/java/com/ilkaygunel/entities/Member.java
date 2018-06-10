@@ -33,7 +33,7 @@ public class Member {
     private String lastName;
     @Column(nullable = false, updatable = false)
     private String email;
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private boolean enabled;
     @Column(nullable = false)
     private String password;
