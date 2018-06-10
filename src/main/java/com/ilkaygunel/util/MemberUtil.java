@@ -39,7 +39,7 @@ public class MemberUtil {
 		return emailMatcher.matches();
 	}
 
-	public MemberOperationPojo checkEmailAddressAndLanguage(Member member, Logger LOGGER) {
+	public MemberOperationPojo checkEmailAddress(Member member, Logger LOGGER) {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		try {
 			if (ObjectUtils.isEmpty(member.getEmail())) {
@@ -53,9 +53,6 @@ public class MemberUtil {
 				throw new CustomException(ErrorCodes.ERROR_07.getErrorCode(),
 						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_07.getErrorCode(), "en") + " "
 								+ member.getEmail());
-			} else if (ObjectUtils.isEmpty(member.getMemberLanguageCode())) {
-				throw new CustomException(ErrorCodes.ERROR_11.getErrorCode(),
-						resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_11.getErrorCode(), "en"));
 			}
 		} catch (CustomException customException) {
 			memberOperationPojo.setErrorCode(customException.getErrorCode());
@@ -111,7 +108,7 @@ public class MemberUtil {
 			throws CustomException {
 		MemberOperationPojo memberOperationPojo = null;
 		for (Member member : memberList) {
-			memberOperationPojo = checkEmailAddressAndLanguage(member, LOGGER);
+			memberOperationPojo = checkEmailAddress(member, LOGGER);
 			if (!ObjectUtils.isEmpty(memberOperationPojo.getErrorCode())) {
 				throw new CustomException(memberOperationPojo.getErrorCode(), memberOperationPojo.getResult());
 			}
@@ -140,7 +137,7 @@ public class MemberUtil {
 		return passwordChecking;
 	}
 
-	public List<MemberIdWrapp> getMemberIdListFromMemerList(List<Member> members) {
+	public List<MemberIdWrapp> getMemberIdListFromMemberList(List<Member> members) {
 		List<MemberIdWrapp> memberIdList = new ArrayList<>();
 		for (Member member : members) {
 			MemberIdWrapp memberIdWrapp = new MemberIdWrapp();

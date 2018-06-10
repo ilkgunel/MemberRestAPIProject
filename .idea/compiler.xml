@@ -9,5 +9,8 @@
         <module name="MemberRestAPIProject" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="MemberRestAPIProject" target="9" />
+    </bytecodeTargetLevel>
   </component>
 </project>

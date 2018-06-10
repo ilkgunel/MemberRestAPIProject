@@ -14,6 +14,8 @@ import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.service.MemberUpdateService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/memberUpdateWebServiceEndpoint")
 public class MemberUpdateWebServiceEndpoint {
@@ -22,13 +24,13 @@ public class MemberUpdateWebServiceEndpoint {
 	private MemberUpdateService memberUpdateServices;
 
 	@RequestMapping(value = "/updateUserMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateBulkUserMember(@RequestBody List<Member> memberListForUpdate) {
+	private ResponseEntity<MemberOperationPojo> updateBulkUserMember(@Valid @RequestBody List<Member> memberListForUpdate) {
 		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateUserMember(memberListForUpdate);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateAdminMember", method = RequestMethod.PUT)
-	private ResponseEntity<MemberOperationPojo> updateBulkAdminMember(@RequestBody List<Member> memberListForUpdate) {
+	private ResponseEntity<MemberOperationPojo> updateBulkAdminMember(@Valid @RequestBody List<Member> memberListForUpdate) {
 		MemberOperationPojo memberOperationPojo = memberUpdateServices.updateAdminMember(memberListForUpdate);
 		return new ResponseEntity<MemberOperationPojo>(memberOperationPojo, HttpStatus.OK);
 	}

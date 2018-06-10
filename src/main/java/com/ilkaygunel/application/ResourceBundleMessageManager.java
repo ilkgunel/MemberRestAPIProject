@@ -8,17 +8,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResourceBundleMessageManager {
 
-	private static ResourceBundleMessageSource messageSourceInstance = null;
+    private static ResourceBundleMessageSource messageSourceInstance = null;
 
-	public String getValueOfProperty(String propertyName, String localeValue) {
+    public String getValueOfProperty(String propertyName, String localeValue) {
 
-		if (messageSourceInstance == null) {
-			messageSourceInstance = new ResourceBundleMessageSource();
-			messageSourceInstance.setBasenames("messageTexts","errorMeanings");
-			messageSourceInstance.setDefaultEncoding("UTF-8");
-		}
+        if (messageSourceInstance == null) {
+            messageSourceInstance = new ResourceBundleMessageSource();
+            messageSourceInstance.setBasenames("messageTexts", "errorMeanings", "ValidationMessages");
+            messageSourceInstance.setDefaultEncoding("UTF-8");
+        }
 
-		return messageSourceInstance.getMessage(propertyName, null, new Locale(localeValue));
-
-	}
+        return messageSourceInstance.getMessage(propertyName, null, new Locale(localeValue));
+    }
 }

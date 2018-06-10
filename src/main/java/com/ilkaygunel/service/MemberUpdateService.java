@@ -29,7 +29,7 @@ public class MemberUpdateService extends BaseService {
 		Logger LOGGER = loggingUtil.getLoggerForMemberUpdating(this.getClass());
 		//
 		MemberOperationPojo pojoForMemberExistingChecking = memberUtil
-				.checkMemberExistenceOnMemberList(memberUtil.getMemberIdListFromMemerList(memberListForUpdate), role);
+				.checkMemberExistenceOnMemberList(memberUtil.getMemberIdListFromMemberList(memberListForUpdate), role);
 		MemberOperationPojo pojoForPasswordContainsChecking = memberUtil
 				.checkMemberListContainPassowrdForUpdate(memberListForUpdate, LOGGER);
 
