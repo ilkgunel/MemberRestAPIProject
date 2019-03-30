@@ -12,7 +12,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @SpringBootApplication
 @EntityScan("com.ilkaygunel.entities")
 @ComponentScan(basePackages = {"com.ilkaygunel.*"})
-@EnableAutoConfiguration
 @EnableJpaRepositories("com.ilkaygunel.repository")
 public class Application {
     public static void main(String[] args) {
