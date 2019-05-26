@@ -36,6 +36,7 @@ public class Member {
     @Column(nullable = false)
     private boolean enabled;
     @Column(nullable = false)
+    @NotNull(message = "{password.notnull}")
     private String password;
     @Column(nullable = false)
     @NotNull(message = "Member Language Code Can Not Be Empty")

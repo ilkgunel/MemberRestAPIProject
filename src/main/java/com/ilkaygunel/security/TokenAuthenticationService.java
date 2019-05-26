@@ -37,6 +37,7 @@ public class TokenAuthenticationService {
         String JWT = Jwts.builder().setSubject(auth.getName()).claim("roles", concattedRoles)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();
+        System.out.println("OUR JWT Token:" + JWT);
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
     }
 
