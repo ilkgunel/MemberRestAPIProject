@@ -2,6 +2,7 @@ package com.ilkaygunel.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,9 +64,9 @@ public class MemberDeleteService extends BaseService {
 
     private MemberOperationPojo deleteOneMember(long memberId) throws CustomException, Exception {
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-        Member memberForDelete = memberRepository.findOne(memberId);
-        memberRepository.delete(memberId);
-        memberOperationPojo.setMember(memberForDelete);
+        Optional<Member> memberForDelete = memberRepository.findById(memberId);
+        memberForDelete.ifPresent(member -> memberRepository.delete(member));
+        memberForDelete.ifPresent(member -> memberOperationPojo.setMember(member));
         return memberOperationPojo;
     }
 

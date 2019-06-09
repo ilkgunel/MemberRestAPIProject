@@ -30,7 +30,7 @@ public class MemberGetService extends BaseService {
 		Logger LOGGER = loggingUtil.getLoggerForMemberGetting(this.getClass());
 		try {
 			LOGGER.log(Level.INFO, "getMemberViaId(...) method is running.");
-			return memberRepository.findOne(id);
+			return memberRepository.findById(id).orElse(null);
 		} catch (Exception ex) {
 			LOGGER.log(Level.SEVERE, "An error occured while getting member via id. Error is:" + ex.getMessage());
 		}

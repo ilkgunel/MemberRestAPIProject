@@ -60,7 +60,7 @@ public class MemberUpdateService extends BaseService {
 				LOGGER.log(Level.SEVERE,
 						resourceBundleMessageManager.getValueOfProperty(role + "_memberUpdatingFailed",
 								memberForUpdate.getMemberLanguageCode())
-								+ memberRepository.findOne(memberForUpdate.getId()) + ex.getMessage());
+								+ memberRepository.findById(memberForUpdate.getId()) + ex.getMessage());
 			}
 
 		}
@@ -78,7 +78,7 @@ public class MemberUpdateService extends BaseService {
 		memberRepository.save(memberForUpdate);
 		LOGGER.log(Level.INFO,
 				resourceBundleMessageManager.getValueOfProperty(roleForCheck + "_memberUpdatingSuccessful",
-						memberForUpdate.getMemberLanguageCode()) + memberRepository.findOne(memberForUpdate.getId()));
+						memberForUpdate.getMemberLanguageCode()) + memberRepository.findById(memberForUpdate.getId()));
 
 	}
 }

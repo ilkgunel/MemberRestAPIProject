@@ -78,7 +78,7 @@ public class MemberUtil {
 	}
 
 	public Member checkMember(Long memberId, String roleForCheck) throws Exception {
-		Member member = memberRepository.findOne(memberId);
+		Member member = memberRepository.findById(memberId).orElse(null);
 
 		if (member == null) {
 			if (ConstantFields.ROLE_USER.getConstantField().equals(roleForCheck)) {
