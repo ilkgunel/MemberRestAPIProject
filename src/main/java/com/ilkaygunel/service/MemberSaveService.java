@@ -36,7 +36,7 @@ public class MemberSaveService extends BaseService {
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		List<Member> savedMemberList = new ArrayList<>();
 		try {
-			memberUtil.checkEmailAddressAndLanguageOnMemberList(memberList, LOGGER);
+			memberUtil.checkRequiredFields(memberList, LOGGER);
 			for (Member member : memberList) {
 				addOneMember(member, role, LOGGER);
 				savedMemberList.add(member);

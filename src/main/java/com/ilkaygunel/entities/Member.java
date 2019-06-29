@@ -35,9 +35,12 @@ public class Member {
     private String email;
     @Column(nullable = false)
     private boolean enabled;
+
     @Column(nullable = false)
-    @NotNull(message = "{password.notnull}")
+    //@NotNull(message = "{password.notnull}")
+    //Update işleminde zorunlu olmaması gerektiğinden kayıt işlemindeki zorunluluk konusu üye kayıt anına alınacak.
     private String password;
+
     @Column(nullable = false)
     @NotNull(message = "Member Language Code Can Not Be Empty")
     private String memberLanguageCode;

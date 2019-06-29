@@ -104,19 +104,22 @@ public class MemberUtil {
 		return member;
 	}
 
-	public void checkEmailAddressAndLanguageOnMemberList(List<Member> memberList, Logger LOGGER)
+	public void checkRequiredFields(List<Member> memberList, Logger LOGGER)
 			throws CustomException {
 		MemberOperationPojo memberOperationPojo = null;
 		for (Member member : memberList) {
 			memberOperationPojo = checkEmailAddress(member, LOGGER);
 			if (!ObjectUtils.isEmpty(memberOperationPojo.getErrorCode())) {
 				throw new CustomException(memberOperationPojo.getErrorCode(), memberOperationPojo.getResult());
+			} else if (isRequestContainsPassword(member)){
+				throw new CustomException(ErrorCodes.ERROR_13.getErrorCode(), resourceBundleMessageManager
+						.getValueOfProperty(ErrorCodes.ERROR_13.getErrorCode(), member.getMemberLanguageCode()));
 			}
 		}
 	}
 
-	public boolean isRequestContainsPassword(Member memberForUpdate) {
-		return ObjectUtils.isEmpty(memberForUpdate.getPassword());
+	public boolean isRequestContainsPassword(Member member) {
+		return ObjectUtils.isEmpty(member.getPassword());
 	}
 
 	public MemberOperationPojo checkMemberListContainPassowrdForUpdate(List<Member> memberList, Logger LOGGER) {
