@@ -19,13 +19,13 @@ public class MemberDeleteWebServiceEndPoint {
 	private MemberDeleteService memberDeleteService;
 
 	@DeleteMapping("/deleteUserMember")
-	public ResponseEntity<MemberOperationPojo> deleteUserMember(@RequestBody List<MemberIdWrapp> memberIdList) {
+	public ResponseEntity<MemberOperationPojo> deleteUserMember(@RequestBody List<MemberIdWrapp> memberIdList) throws Exception {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteUserMember(memberIdList);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/deleteAdminMember", method = RequestMethod.DELETE)
-	public ResponseEntity<MemberOperationPojo> deleteAdminMember(@RequestBody List<MemberIdWrapp> memberIdList) {
+	public ResponseEntity<MemberOperationPojo> deleteAdminMember(@RequestBody List<MemberIdWrapp> memberIdList) throws Exception {
 		MemberOperationPojo memberOperationPojo = memberDeleteService.deleteAdminMember(memberIdList);
 		return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
 	}

@@ -16,15 +16,15 @@ import com.ilkaygunel.pojo.MemberOperationPojo;
 @Service
 public class MemberUpdateService extends BaseService {
 
-	public MemberOperationPojo updateUserMember(List<Member> memberListForUpdate) {
+	public MemberOperationPojo updateUserMember(List<Member> memberListForUpdate) throws Exception {
 		return updateBulkMember(memberListForUpdate, ConstantFields.ROLE_USER.getConstantField());
 	}
 
-	public MemberOperationPojo updateAdminMember(List<Member> memberListForUpdate) {
+	public MemberOperationPojo updateAdminMember(List<Member> memberListForUpdate) throws Exception {
 		return updateBulkMember(memberListForUpdate, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
-	private MemberOperationPojo updateBulkMember(List<Member> memberListForUpdate, String role) {
+	private MemberOperationPojo updateBulkMember(List<Member> memberListForUpdate, String role) throws Exception {
 		// Get logger
 		Logger LOGGER = loggingUtil.getLoggerForMemberUpdating(this.getClass());
 		//

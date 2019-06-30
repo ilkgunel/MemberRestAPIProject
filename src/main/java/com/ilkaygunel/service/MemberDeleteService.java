@@ -18,15 +18,15 @@ import com.ilkaygunel.wrapper.MemberIdWrapp;
 @Service
 public class MemberDeleteService extends BaseService {
 
-    public MemberOperationPojo deleteUserMember(List<MemberIdWrapp> memberIdList) {
+    public MemberOperationPojo deleteUserMember(List<MemberIdWrapp> memberIdList) throws Exception {
         return deleteBulkMember(memberIdList, ConstantFields.ROLE_USER.getConstantField());
     }
 
-    public MemberOperationPojo deleteAdminMember(List<MemberIdWrapp> memberIdList) {
+    public MemberOperationPojo deleteAdminMember(List<MemberIdWrapp> memberIdList) throws Exception {
         return deleteBulkMember(memberIdList, ConstantFields.ROLE_ADMIN.getConstantField());
     }
 
-    private MemberOperationPojo deleteBulkMember(List<MemberIdWrapp> memberIdList, String roleForCheck) {
+    private MemberOperationPojo deleteBulkMember(List<MemberIdWrapp> memberIdList, String roleForCheck) throws Exception {
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
         //
         Logger LOGGER = loggingUtil.getLoggerForMemberDeleting(this.getClass());
