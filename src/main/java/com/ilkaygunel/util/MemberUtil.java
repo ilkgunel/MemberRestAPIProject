@@ -88,10 +88,6 @@ public class MemberUtil {
                     && !ConstantFields.ROLE_USER.getConstantField().equals(memberRoles.getRole())) {
                 throw new CustomException(ErrorCodes.ERROR_03.getErrorCode(), resourceBundleMessageManager
                         .getValueOfProperty(ErrorCodes.ERROR_03.getErrorCode(), member.getMemberLanguageCode()));
-            } else if (ConstantFields.ROLE_ADMIN.getConstantField().equals(roleForCheck)
-                    && !ConstantFields.ROLE_ADMIN.getConstantField().equals(memberRoles.getRole())) {
-                throw new CustomException(ErrorCodes.ERROR_04.getErrorCode(), resourceBundleMessageManager
-                        .getValueOfProperty(ErrorCodes.ERROR_04.getErrorCode(), member.getMemberLanguageCode()));
             }
         }
 
