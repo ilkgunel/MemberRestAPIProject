@@ -1,5 +1,6 @@
 package com.ilkaygunel.restservice;
 
+import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.wrapper.MemberWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import com.ilkaygunel.service.MemberSaveService;
 
 import com.ilkaygunel.exception.ErrorCodes;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @RestController
@@ -21,7 +23,7 @@ public class MemberSaveWebServiceEndPoint {
     private MemberSaveService memberSaveService;
 
     @PostMapping("/saveUserMember")
-    public ResponseEntity<MemberOperationPojo> saveUserMember(@Valid @RequestBody MemberWrapper memberWrapper, Errors errors) {
+    public ResponseEntity<MemberOperationPojo> saveUserMember(@Valid @RequestBody MemberWrapper memberWrapper, Errors errors) throws CustomException, MessagingException {
         MemberOperationPojo memberOperationPojo;
         if (errors.hasErrors()) {
             memberOperationPojo = new MemberOperationPojo();
@@ -34,7 +36,7 @@ public class MemberSaveWebServiceEndPoint {
     }
 
     @RequestMapping(value = "/saveAdminMember", method = RequestMethod.POST)
-    public ResponseEntity<MemberOperationPojo> saveAdminMember(@Valid @RequestBody MemberWrapper memberWrapper, Errors errors) {
+    public ResponseEntity<MemberOperationPojo> saveAdminMember(@Valid @RequestBody MemberWrapper memberWrapper, Errors errors) throws CustomException,MessagingException {
         MemberOperationPojo memberOperationPojo;
         if (errors.hasErrors()) {
             memberOperationPojo = new MemberOperationPojo();

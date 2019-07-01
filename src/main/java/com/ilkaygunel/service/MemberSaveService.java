@@ -22,20 +22,20 @@ import com.ilkaygunel.pojo.MemberOperationPojo;
 @Service
 public class MemberSaveService extends BaseService {
 
-	public MemberOperationPojo addUserMember(List<Member> memberList) {
+	public MemberOperationPojo addUserMember(List<Member> memberList) throws CustomException,MessagingException {
 		return addBulkMember(memberList, ConstantFields.ROLE_USER.getConstantField());
 	}
 
-	public MemberOperationPojo addAdminMember(List<Member> memberList) {
+	public MemberOperationPojo addAdminMember(List<Member> memberList) throws CustomException,MessagingException {
 		return addBulkMember(memberList, ConstantFields.ROLE_ADMIN.getConstantField());
 	}
 
-	public MemberOperationPojo addBulkMember(List<Member> memberList, String role) {
+	public MemberOperationPojo addBulkMember(List<Member> memberList, String role) throws CustomException,MessagingException {
 		Logger LOGGER = loggingUtil.getLoggerForMemberSaving(this.getClass());
 		LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingMethod", "en"));
 		MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 		List<Member> savedMemberList = new ArrayList<>();
-		try {
+
 			memberUtil.checkRequiredFields(memberList, LOGGER);
 			for (Member member : memberList) {
 				addOneMember(member, role, LOGGER);
@@ -47,19 +47,7 @@ public class MemberSaveService extends BaseService {
 			LOGGER.log(Level.INFO,
 					resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingSuccessfull", savedMemberList.get(0).getMemberLanguageCode())
 							+ memberList);
-		} catch (CustomException customException) {
-			LOGGER.log(Level.SEVERE,
-					resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingFaled", "en")
-							+ customException.getErrorCode() + " " + customException.getErrorMessage());
-			memberOperationPojo.setErrorCode(customException.getErrorCode());
-			memberOperationPojo.setResult(customException.getErrorMessage());
-		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE,
-					resourceBundleMessageManager.getValueOfProperty(role + "_bulkMemberAddingFaled", "en")
-							+ e.getMessage());
-			memberOperationPojo.setErrorCode(ErrorCodes.ERROR_10.getErrorCode());
-			memberOperationPojo.setResult(e.getMessage());
-		}
+
 		return memberOperationPojo;
 	}
 

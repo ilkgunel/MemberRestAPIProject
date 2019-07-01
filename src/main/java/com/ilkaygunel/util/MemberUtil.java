@@ -39,9 +39,9 @@ public class MemberUtil {
         return emailMatcher.matches();
     }
 
-    public MemberOperationPojo checkEmailAddress(Member member, Logger LOGGER) {
+    public MemberOperationPojo checkEmailAddress(Member member, Logger LOGGER) throws CustomException {
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
-        try {
+
             if (ObjectUtils.isEmpty(member.getEmail())) {
                 throw new CustomException(ErrorCodes.ERROR_05.getErrorCode(),
                         resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_05.getErrorCode(), "en"));
@@ -54,10 +54,7 @@ public class MemberUtil {
                         resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_07.getErrorCode(), "en") + " "
                                 + member.getEmail());
             }
-        } catch (CustomException customException) {
-            memberOperationPojo.setErrorCode(customException.getErrorCode());
-            memberOperationPojo.setResult(customException.getErrorMessage());
-        }
+
         return memberOperationPojo;
     }
 
