@@ -7,12 +7,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Arrays;
 
@@ -33,8 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests().antMatchers("/memberGetWebServiceEndPoint/**")
-                //.permitAll()
-                .access("hasAnyRole('ROLE_ADMIN,ROLE_USER')")
+                .permitAll()
+                //.access("hasAnyRole('ROLE_ADMIN,ROLE_USER')")
                 .and()
                 .authorizeRequests().antMatchers("/activateMemberWebServiceEndpoint/**").permitAll()
                 .and()
@@ -56,6 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(("/memberDeleteWebServiceEndPoint/deleteAdminMember/**"))
                 .access("hasRole('ROLE_ADMIN')")
                 .and()
+                //.authorizeRequests().antMatchers("/changePassword/admin").access("hasRole('ROLE_ADMIN')").and()
+                //.authorizeRequests().antMatchers("/changePassword/user").access("hasAnyRole('ROLE_ADMIN,ROLE_USER')").and()
+                .authorizeRequests().antMatchers("/changePassword/admin").permitAll().and()
+                .authorizeRequests().antMatchers("/changePassword/user").permitAll().and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)

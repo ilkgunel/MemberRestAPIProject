@@ -13,13 +13,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class MemberDetailServiceImpl extends BaseService implements UserDetailsService{
+public class MemberDetailServiceImpl extends BaseService implements UserDetailsService {
 
     @Override
-    public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException{
-        Member member = memberRepository.findByEmail(emailAddress);
+    public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
+        Member member = memberRepository.findByEmail(emailAddress).orElse(new Member());
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(member.getRoleOfMember().getRole()));
-        return new User(member.getEmail(),member.getPassword(),member.isEnabled(),true,true,true,grantedAuthorities);
+        return new User(member.getEmail(), member.getPassword(), member.isEnabled(), true, true, true, grantedAuthorities);
     }
 }

@@ -16,7 +16,6 @@ import com.ilkaygunel.constants.ConstantFields;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.entities.MemberRoles;
 import com.ilkaygunel.exception.CustomException;
-import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 
 @Service
@@ -60,7 +59,7 @@ public class MemberSaveService extends BaseService {
 		addMemberRolesObject(role, member);
 		addActivationToken(member);
 		memberRepository.save(member);
-		mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
+		//mailUtil.sendActivationMail(member.getEmail(), member.getActivationToken());
 		memberOperationPojo.setResult(resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull",
 				member.getMemberLanguageCode()));
 		LOGGER.log(Level.INFO, resourceBundleMessageManager.getValueOfProperty(role + "_memberAddingSuccessfull",
