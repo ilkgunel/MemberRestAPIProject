@@ -45,7 +45,7 @@ public class MemberUtil {
             if (ObjectUtils.isEmpty(member.getEmail())) {
                 throw new CustomException(ErrorCodes.ERROR_05.getErrorCode(),
                         resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_05.getErrorCode(), "en"));
-            } else if (memberRepository.findByEmail(member.getEmail()) != null) {
+            } else if (memberRepository.findByEmail(member.getEmail()).isPresent()) {
                 throw new CustomException(ErrorCodes.ERROR_06.getErrorCode(),
                         resourceBundleMessageManager.getValueOfProperty(ErrorCodes.ERROR_06.getErrorCode(), "en") + " "
                                 + member.getEmail());

@@ -7,6 +7,7 @@ import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -44,8 +45,17 @@ public class PasswordChangeService {
         return member;
     }
 
+    private void checkUser(String memberEmail, String languageCode) throws CustomException {
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!memberEmail.equals(loggedInUserEmail)) {
+            throw new CustomException(ErrorCodes.ERROR_16.getErrorCode(), resourceBundleMessageManager
+                    .getValueOfProperty(ErrorCodes.ERROR_16.getErrorCode(), languageCode));
+        }
+    }
+
     private MemberOperationPojo updatePassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
         Member member = checkOldPassword(memberEmail, oldPassword);
+        checkUser(memberEmail, member.getMemberLanguageCode());
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
 
         member.setPassword(bCryptPasswordEncoder.encode(newPassword));
