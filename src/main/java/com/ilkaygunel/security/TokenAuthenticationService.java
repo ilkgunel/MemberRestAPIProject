@@ -1,5 +1,6 @@
 package com.ilkaygunel.security;
 
+import com.ilkaygunel.repository.JWTBlackListRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

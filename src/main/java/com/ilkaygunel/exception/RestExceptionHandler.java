@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.lang.reflect.UndeclaredThrowableException;
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -21,11 +23,33 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(ex);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleGenericException(Exception ex) {
+        if (ex instanceof UndeclaredThrowableException) {
+            Throwable throwable = ((UndeclaredThrowableException) ex).getUndeclaredThrowable();
+            if (throwable instanceof CustomException) {
+                return buildResponseEntity((CustomException) throwable);
+            }
+        }
+        return takeInternalErrorResponseEntity(ex);
+    }
+
     private ResponseEntity<Object> buildResponseEntity(CustomException ex) {
+        HttpStatus httpStatus = null;
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
         memberOperationPojo.setResult(ex.getErrorMessage());
         memberOperationPojo.setErrorCode(ex.getErrorCode());
-        return new ResponseEntity<>(memberOperationPojo, HttpStatus.BAD_REQUEST);
+        if (ex.getHttpStatus() != null) {
+            httpStatus = ex.getHttpStatus();
+        } else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+        }
+        return new ResponseEntity<>(memberOperationPojo, httpStatus);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return takeInternalErrorResponseEntity(ex);
     }
 
     @Override
@@ -41,5 +65,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .forEach(s -> memberOperationPojo.setResult(memberOperationPojo.getResult() + " " + s.getDefaultMessage() + "!"));
 
         return new ResponseEntity<>(memberOperationPojo, HttpStatus.BAD_REQUEST);
+    }
+
+    private ResponseEntity<Object> takeInternalErrorResponseEntity(Exception ex) {
+        MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+        memberOperationPojo.setErrorCode(ErrorCodes.ERROR_10.getErrorCode());
+        memberOperationPojo.setResult(ex.getMessage());
+        return new ResponseEntity<>(memberOperationPojo, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

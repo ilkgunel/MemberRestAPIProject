@@ -58,8 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/changePassword/admin").access("hasRole('ROLE_ADMIN')").and()
                 .authorizeRequests().antMatchers("/changePassword/user").access("hasAnyRole('ROLE_ADMIN,ROLE_USER')").and()
-                //.authorizeRequests().antMatchers("/changePassword/admin").permitAll().and()
-                //.authorizeRequests().antMatchers("/changePassword/user").permitAll().and()
+                .authorizeRequests().antMatchers(("/logout/")).access("hasAnyRole('ROLE_ADMIN,ROLE_USER')").and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)

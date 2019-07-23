@@ -1,7 +1,6 @@
 package com.ilkaygunel.security;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,7 +16,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ilkaygunel.pojo.AccountCredentials;
-import com.ilkaygunel.security.TokenAuthenticationService;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
