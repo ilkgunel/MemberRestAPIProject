@@ -1,16 +1,22 @@
 package com.ilkaygunel.service;
 
 import com.ilkaygunel.application.ResourceBundleMessageManager;
+import com.ilkaygunel.entities.JWTBlackList;
 import com.ilkaygunel.entities.Member;
 import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
+import com.ilkaygunel.repository.JWTBlackListRepository;
 import com.ilkaygunel.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class PasswordChangeService {
@@ -23,6 +29,9 @@ public class PasswordChangeService {
 
     @Autowired
     private ResourceBundleMessageManager resourceBundleMessageManager;
+
+    @Autowired
+    private JWTBlackListRepository jwtBlackListRepository;
 
     public MemberOperationPojo changeAdminOrUserPassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
         return updatePassword(memberEmail, oldPassword, newPassword);
@@ -53,6 +62,19 @@ public class PasswordChangeService {
         }
     }
 
+    private void addTokenToBlackList() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .currentRequestAttributes())
+                .getRequest();
+
+        JWTBlackList jwtBlackList = new JWTBlackList();
+        jwtBlackList.setToken(request.getHeader("Authorization").replace("Bearer ", ""));
+        jwtBlackList.setUser(request.getUserPrincipal().getName());
+
+        jwtBlackListRepository.save(jwtBlackList);
+
+    }
+
     private MemberOperationPojo updatePassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
         Member member = checkOldPassword(memberEmail, oldPassword);
         checkUser(memberEmail, member.getMemberLanguageCode());
@@ -60,6 +82,8 @@ public class PasswordChangeService {
 
         member.setPassword(bCryptPasswordEncoder.encode(newPassword));
         memberRepository.save(member);
+
+        addTokenToBlackList();
 
         memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
                 + resourceBundleMessageManager.getValueOfProperty(member.getRoleOfMember().getRole() + "_memberUpdatingSuccessful",

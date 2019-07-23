@@ -12,6 +12,9 @@ public class LogoutService {
     private JWTBlackListRepository jwtBlackListRepository;
 
     public void logout(JWTBlackList jwtBlackList) {
+        String token = jwtBlackList.getToken();
+        token = token.replace("Bearer", "");
+        jwtBlackList.setToken(token);
         jwtBlackListRepository.save(jwtBlackList);
     }
 

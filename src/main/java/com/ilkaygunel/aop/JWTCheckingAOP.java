@@ -26,12 +26,13 @@ public class JWTCheckingAOP {
     @Autowired
     private ResourceBundleMessageManager resourceBundleMessageManager;
 
-    @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping) && execution(public * *(..))")
+    @Around("(@annotation(org.springframework.web.bind.annotation.RequestMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping)) && execution(public * *(..))")
+    //@Around("execution(@org.springframework.web.bind.annotation.* * *(..))")
     public Object check(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .currentRequestAttributes())
                 .getRequest();
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
         String user = request.getUserPrincipal().getName();
         JWTBlackList jwtBlackList = jwtBlackListRepository.findByTokenAndUser(token, user);
         if (jwtBlackList != null) {
