@@ -3,6 +3,7 @@ package com.ilkaygunel.util;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import com.ilkaygunel.application.ResourceBundleMessageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,34 +13,57 @@ import org.springframework.stereotype.Component;
 @Component
 public class MailUtil {
 
-	@Autowired
-	private JavaMailSender mailSender;
+    @Autowired
+    private JavaMailSender mailSender;
 
-	public SimpleMailMessage templateForSimpleMessage() {
+    @Autowired
+    private ResourceBundleMessageManager resourceBundleMessageManager;
 
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-		simpleMailMessage.setSubject("Hesabınızı Aktifleştirin");
-		simpleMailMessage.setText(
-				"Hesabınızın aktifleştirilmesi için bu linke tıklayınız: \nhttp://localhost:8080/MemberRestAPIProject/activateMemberWebServiceEndpoint/activateMember?activationToken=%s");
+    private SimpleMailMessage templateForSimpleMessage(String mailType, String locale) {
 
-		return simpleMailMessage;
-	}
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
-	public void sendActivationMail(String emailAddress, String activationToken) throws MessagingException {
-		SimpleMailMessage simpleMailMessage = templateForSimpleMessage();
-		MimeMessage mimeMessage = mailSender.createMimeMessage();
+        simpleMailMessage.setSubject(resourceBundleMessageManager.getValueOfProperty("subject." + mailType, locale));
+        simpleMailMessage.setText(
+                resourceBundleMessageManager.getValueOfProperty("mailText." + mailType, locale) +
+                resourceBundleMessageManager.getValueOfProperty("link." + mailType, locale)
+        );
 
-		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-		mimeMessageHelper.setText(String.format(simpleMailMessage.getText(), activationToken), true);
-		mimeMessageHelper.setTo(emailAddress);
-		mimeMessage.setSubject(simpleMailMessage.getSubject());
+        return simpleMailMessage;
+    }
 
-		/*
-		 * FileSystemResource file = new FileSystemResource(new
-		 * File("/home/ilkaygunel/Desktop/notlar.txt"));
-		 * mimeMessageHelper.addAttachment("Notes", file);
-		 */
-		mailSender.send(mimeMessage);
-	}
+    public void sendActivationMail(String emailAddress, String activationToken) throws MessagingException {
+        SimpleMailMessage simpleMailMessage = templateForSimpleMessage("activateAccount", "tr");
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+        mimeMessageHelper.setText(String.format(simpleMailMessage.getText(), activationToken), true);
+        mimeMessageHelper.setTo(emailAddress);
+        mimeMessage.setSubject(simpleMailMessage.getSubject());
+
+        /*
+         * FileSystemResource file = new FileSystemResource(new
+         * File("/home/ilkaygunel/Desktop/notlar.txt"));
+         * mimeMessageHelper.addAttachment("Notes", file);
+         */
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendPasswordResetMail(String emailAddress, String passwordResetToken, String memberLanguageCode) throws MessagingException {
+        SimpleMailMessage simpleMailMessage = templateForSimpleMessage("resetPassword", memberLanguageCode);
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+        mimeMessageHelper.setText(String.format(simpleMailMessage.getText(), passwordResetToken), true);
+        mimeMessageHelper.setTo(emailAddress);
+        mimeMessage.setSubject(simpleMailMessage.getSubject());
+
+        /*
+         * FileSystemResource file = new FileSystemResource(new
+         * File("/home/ilkaygunel/Desktop/notlar.txt"));
+         * mimeMessageHelper.addAttachment("Notes", file);
+         */
+        mailSender.send(mimeMessage);
+    }
 
 }

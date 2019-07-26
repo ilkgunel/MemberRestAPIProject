@@ -12,6 +12,9 @@ Links:
 	For Deleting:
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteUserMember
 		http://localhost:8080/MemberRestAPIProject/memberDeleteWebServiceEndPoint/deleteAdminMember
+	For Password Updating:
+	    http://localhost:8080/MemberRestAPIProject/changePassword/admin
+	    http://localhost:8080/MemberRestAPIProject/changePassword/user
 		
 Sample JSON's:
 
@@ -44,3 +47,5 @@ Bulk Member Update: [
 One Member Delete: {"id": 6}
 
 Bulk Member Delete: [{"id": 7},{"id": 8}]
+
+Password Update : {"email":"ilkgunel93@gmail.com","oldPassword":"TEST1234","newPassword":"TEST1235"}

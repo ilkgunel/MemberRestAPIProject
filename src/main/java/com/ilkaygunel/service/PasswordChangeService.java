@@ -8,6 +8,8 @@ import com.ilkaygunel.exception.ErrorCodes;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.repository.JWTBlackListRepository;
 import com.ilkaygunel.repository.MemberRepository;
+import com.ilkaygunel.util.MailUtil;
+import com.ilkaygunel.util.MemberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +18,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Service
 public class PasswordChangeService {
@@ -33,12 +37,37 @@ public class PasswordChangeService {
     @Autowired
     private JWTBlackListRepository jwtBlackListRepository;
 
+    @Autowired
+    private MailUtil mailUtil;
+
+    @Autowired
+    private PasswordResetTokenService passwordResetTokenService;
+
     public MemberOperationPojo changeAdminOrUserPassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
         return updatePassword(memberEmail, oldPassword, newPassword);
     }
 
     public MemberOperationPojo changeUserPassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
         return updatePassword(memberEmail, oldPassword, newPassword);
+    }
+
+    public MemberOperationPojo sendPasswordResetMail(String email) throws CustomException, MessagingException {
+        Member member = memberRepository.findByEmail(email).orElse(null);
+        if (member == null) {
+            throw new CustomException(ErrorCodes.ERROR_14.getErrorCode(), resourceBundleMessageManager
+                    .getValueOfProperty(ErrorCodes.ERROR_14.getErrorCode(), "tr"));
+        } else {
+            String resetPasswordToken = UUID.randomUUID().toString();
+            mailUtil.sendPasswordResetMail(email, resetPasswordToken, member.getMemberLanguageCode());
+
+            passwordResetTokenService.savePasswordResetToken(resetPasswordToken);
+
+            MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
+            memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
+                    + resourceBundleMessageManager.getValueOfProperty(member.getRoleOfMember().getRole() + "_memberUpdatingSuccessful",
+                    member.getMemberLanguageCode()));
+            return memberOperationPojo;
+        }
     }
 
     private Member checkOldPassword(String memberEmail, String oldPassword) throws CustomException {
