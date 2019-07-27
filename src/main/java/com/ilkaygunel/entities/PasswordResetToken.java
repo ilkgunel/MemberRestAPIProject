@@ -1,6 +1,7 @@
 package com.ilkaygunel.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,10 +12,20 @@ public class PasswordResetToken {
     private long id;
 
     @Column
+    @NotNull
+    private String email;
+
+    @Column
+    @NotNull
     private String passwordResetToken;
 
     @Column
+    @NotNull
     private LocalDateTime expireDate;
+
+    @Column
+    @NotNull
+    private Boolean used;
 
     public long getId() {
         return id;
@@ -40,5 +51,19 @@ public class PasswordResetToken {
         this.expireDate = expireDate;
     }
 
+    public Boolean getUsed() {
+        return used;
+    }
 
+    public void setUsed(Boolean used) {
+        this.used = used;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

@@ -9,7 +9,6 @@ import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.repository.JWTBlackListRepository;
 import com.ilkaygunel.repository.MemberRepository;
 import com.ilkaygunel.util.MailUtil;
-import com.ilkaygunel.util.MemberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,7 +40,7 @@ public class PasswordChangeService {
     private MailUtil mailUtil;
 
     @Autowired
-    private PasswordResetTokenService passwordResetTokenService;
+    private PasswordResetService passwordResetService;
 
     public MemberOperationPojo changeAdminOrUserPassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
         return updatePassword(memberEmail, oldPassword, newPassword);
@@ -60,7 +59,7 @@ public class PasswordChangeService {
             String resetPasswordToken = UUID.randomUUID().toString();
             mailUtil.sendPasswordResetMail(email, resetPasswordToken, member.getMemberLanguageCode());
 
-            passwordResetTokenService.savePasswordResetToken(resetPasswordToken);
+            passwordResetService.savePasswordResetToken(resetPasswordToken, member.getEmail());
 
             MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
             memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "

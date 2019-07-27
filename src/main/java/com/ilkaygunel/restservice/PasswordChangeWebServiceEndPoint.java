@@ -1,9 +1,12 @@
 package com.ilkaygunel.restservice;
 
 import com.ilkaygunel.exception.CustomException;
+import com.ilkaygunel.pojo.CheckResetPasswordToken;
 import com.ilkaygunel.pojo.MemberOperationPojo;
+import com.ilkaygunel.pojo.PasswordResetPojo;
 import com.ilkaygunel.pojo.PasswordUpdatePojo;
 import com.ilkaygunel.service.PasswordChangeService;
+import com.ilkaygunel.service.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ public class PasswordChangeWebServiceEndPoint {
     @Autowired
     private PasswordChangeService passwordChangeService;
 
+
+
     @PostMapping(value = "/admin")
     public ResponseEntity<MemberOperationPojo> changeAdminOrUserPassword(@Valid @RequestBody PasswordUpdatePojo passwordUpdatePojo) throws CustomException {
         MemberOperationPojo memberOperationPojo = passwordChangeService.changeAdminOrUserPassword(passwordUpdatePojo.getEmail(), passwordUpdatePojo.getOldPassword(), passwordUpdatePojo.getNewPassword());
@@ -32,9 +37,5 @@ public class PasswordChangeWebServiceEndPoint {
         return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/reset", method = RequestMethod.POST)
-    public ResponseEntity<MemberOperationPojo> resetPassword(@NotNull @RequestBody String email) throws CustomException, MessagingException {
-        passwordChangeService.sendPasswordResetMail(email);
-        return new ResponseEntity<>(new MemberOperationPojo(), HttpStatus.OK);
-    }
+
 }

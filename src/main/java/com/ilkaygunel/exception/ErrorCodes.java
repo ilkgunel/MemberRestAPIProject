@@ -17,7 +17,11 @@ public enum ErrorCodes {
     ERROR_14("ERROR-14"), //
     ERROR_15("ERROR-15"), //
     ERROR_16("ERROR-16"), //
-    ERROR_17("ERROR-17");
+    ERROR_17("ERROR-17"), //
+    ERROR_18("ERROR-18"), // Not Found A Password Reset Token
+    ERROR_19("ERROR-19"), // Expired Password Reset Token
+    ERROR_20("ERROR-20"), // Used Password Reset Token
+    ERROR_21("ERROR-21"); // Passwords don't match.
 
     private String errorCode;
 

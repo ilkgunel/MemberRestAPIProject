@@ -29,19 +29,24 @@ public class JWTCheckingAOP {
     @Around("(@annotation(org.springframework.web.bind.annotation.RequestMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping)) && execution(public * *(..))")
     //@Around("execution(@org.springframework.web.bind.annotation.* * *(..))")
     public Object check(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .currentRequestAttributes())
                 .getRequest();
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        String user = request.getUserPrincipal().getName();
-        JWTBlackList jwtBlackList = jwtBlackListRepository.findByTokenAndUser(token, user);
-        if (jwtBlackList != null) {
-            throw new CustomException(ErrorCodes.ERROR_17.getErrorCode(), resourceBundleMessageManager
-                    .getValueOfProperty(ErrorCodes.ERROR_17.getErrorCode(), "en"), HttpStatus.FORBIDDEN);
 
+        String token = request.getHeader("Authorization");
+        //Herkese açık servislerde token olmayacağı için null check!
+        if (token != null) {
+            token = token.replace("Bearer ", "");
+            String user = request.getUserPrincipal().getName();
+            JWTBlackList jwtBlackList = jwtBlackListRepository.findByTokenAndUser(token, user);
+            if (jwtBlackList != null) {
+                throw new CustomException(ErrorCodes.ERROR_17.getErrorCode(), resourceBundleMessageManager
+                        .getValueOfProperty(ErrorCodes.ERROR_17.getErrorCode(), "en"), HttpStatus.FORBIDDEN);
+
+            }
         }
-        System.out.println("token:" + token);
-        System.out.println("user:" + user);
+
         return proceedingJoinPoint.proceed();
     }
 }

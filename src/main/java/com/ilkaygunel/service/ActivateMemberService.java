@@ -8,26 +8,24 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class ActivateMemberService extends BaseService{
+public class ActivateMemberService extends BaseService {
 
-    public String activateMember(String activationToken){
+    public String activateMember(String activationToken) {
         try {
             Member existingMember = memberRepository.findByActivationToken(activationToken);
-            if (existingMember==null){
+            if (existingMember == null) {
                 throw new CustomException(ErrorCodes.ERROR_08.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_08.getErrorCode()));
             }
-            if (LocalDateTime.now().isAfter(existingMember.getActivationTokenExpDate())){
+            if (LocalDateTime.now().isAfter(existingMember.getActivationTokenExpDate())) {
                 throw new CustomException(ErrorCodes.ERROR_09.getErrorCode(), environment.getProperty(ErrorCodes.ERROR_09.getErrorCode()));
             }
             existingMember.setEnabled(true);
             memberRepository.save(existingMember);
             return "Activating member is successfull";
-        }
-        catch (CustomException e){
-            return "An error occured while activating member:"+e.getErrorCode()+" "+ e.getErrorMessage();
-        }
-        catch (Exception e){
-            return "An error occured while activating member:"+e.getMessage();
+        } catch (CustomException e) {
+            return "An error occured while activating member:" + e.getErrorCode() + " " + e.getErrorMessage();
+        } catch (Exception e) {
+            return "An error occured while activating member:" + e.getMessage();
         }
     }
 }
