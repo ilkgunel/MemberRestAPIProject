@@ -65,7 +65,7 @@ public class PasswordResetService {
 
         passwordResetToken.setUsed(true);
         passwordResetTokenRepository.save(passwordResetToken);
-        
+
         MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
         memberOperationPojo.setResult(resourceBundleMessageManager.getValueOfProperty("resetPassword.successfull", locale));
         return memberOperationPojo;
