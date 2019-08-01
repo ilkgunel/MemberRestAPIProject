@@ -56,8 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(("/memberDeleteWebServiceEndPoint/deleteAdminMember/**"))
                 .access("hasRole('ROLE_ADMIN')")
                 .and()
-                .authorizeRequests().antMatchers("/changePassword/admin").access("hasRole('ROLE_ADMIN')").and()
-                .authorizeRequests().antMatchers("/changePassword/user").access("hasAnyRole('ROLE_ADMIN,ROLE_USER')").and()
+                .authorizeRequests().antMatchers("/changePassword/change").access("hasAnyRole('ROLE_ADMIN,ROLE_USER')").and()
                 .authorizeRequests().antMatchers(("/logout/")).access("hasAnyRole('ROLE_ADMIN,ROLE_USER')").and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),

@@ -42,11 +42,7 @@ public class PasswordChangeService {
     @Autowired
     private PasswordResetService passwordResetService;
 
-    public MemberOperationPojo changeAdminOrUserPassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
-        return updatePassword(memberEmail, oldPassword, newPassword);
-    }
-
-    public MemberOperationPojo changeUserPassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
+    public MemberOperationPojo changePassword(String memberEmail, String oldPassword, String newPassword) throws CustomException {
         return updatePassword(memberEmail, oldPassword, newPassword);
     }
 
@@ -114,8 +110,7 @@ public class PasswordChangeService {
         addTokenToBlackList();
 
         memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
-                + resourceBundleMessageManager.getValueOfProperty(member.getRoleOfMember().getRole() + "_memberUpdatingSuccessful",
-                member.getMemberLanguageCode()));
+                + resourceBundleMessageManager.getValueOfProperty("updatePassword.successfull", member.getMemberLanguageCode()));
         return memberOperationPojo;
     }
 

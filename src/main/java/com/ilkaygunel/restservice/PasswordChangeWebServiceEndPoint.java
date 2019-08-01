@@ -23,19 +23,10 @@ public class PasswordChangeWebServiceEndPoint {
     @Autowired
     private PasswordChangeService passwordChangeService;
 
-
-
-    @PostMapping(value = "/admin")
-    public ResponseEntity<MemberOperationPojo> changeAdminOrUserPassword(@Valid @RequestBody PasswordUpdatePojo passwordUpdatePojo) throws CustomException {
-        MemberOperationPojo memberOperationPojo = passwordChangeService.changeAdminOrUserPassword(passwordUpdatePojo.getEmail(), passwordUpdatePojo.getOldPassword(), passwordUpdatePojo.getNewPassword());
+    @RequestMapping(value = "/change")
+    public ResponseEntity<MemberOperationPojo> changePassword(@Valid @RequestBody PasswordUpdatePojo passwordUpdatePojo) throws CustomException {
+        MemberOperationPojo memberOperationPojo = passwordChangeService.changePassword(passwordUpdatePojo.getEmail(), passwordUpdatePojo.getOldPassword(), passwordUpdatePojo.getNewPassword());
         return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
     }
-
-    @PostMapping(value = "/user")
-    public ResponseEntity<MemberOperationPojo> changeUserPassword(@Valid @RequestBody PasswordUpdatePojo passwordUpdatePojo) throws CustomException {
-        MemberOperationPojo memberOperationPojo = passwordChangeService.changeUserPassword(passwordUpdatePojo.getEmail(), passwordUpdatePojo.getOldPassword(), passwordUpdatePojo.getNewPassword());
-        return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
-    }
-
 
 }
