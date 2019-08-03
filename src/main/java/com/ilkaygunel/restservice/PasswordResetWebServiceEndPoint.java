@@ -4,6 +4,7 @@ import com.ilkaygunel.exception.CustomException;
 import com.ilkaygunel.pojo.CheckResetPasswordToken;
 import com.ilkaygunel.pojo.MemberOperationPojo;
 import com.ilkaygunel.pojo.PasswordResetPojo;
+import com.ilkaygunel.pojo.PasswordResetTokenPojo;
 import com.ilkaygunel.service.PasswordChangeService;
 import com.ilkaygunel.service.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class PasswordResetWebServiceEndPoint {
     private PasswordChangeService passwordChangeService;
 
     @RequestMapping(value = "/resetToken", method = RequestMethod.POST)
-    public ResponseEntity<MemberOperationPojo> sendResetPasswordToken(@NotNull @RequestBody String email) throws CustomException, MessagingException {
-        MemberOperationPojo memberOperationPojo = passwordChangeService.sendPasswordResetMail(email);
+    public ResponseEntity<MemberOperationPojo> sendResetPasswordToken(@Valid @RequestBody PasswordResetTokenPojo passwordResetTokenPojo) throws CustomException, MessagingException {
+        MemberOperationPojo memberOperationPojo = passwordChangeService.sendPasswordResetMail(passwordResetTokenPojo.getEmail(),passwordResetTokenPojo.getLocale());
         return new ResponseEntity<>(memberOperationPojo, HttpStatus.OK);
     }
 

@@ -46,11 +46,11 @@ public class PasswordChangeService {
         return updatePassword(memberEmail, oldPassword, newPassword);
     }
 
-    public MemberOperationPojo sendPasswordResetMail(String email) throws CustomException, MessagingException {
+    public MemberOperationPojo sendPasswordResetMail(String email, String locale) throws CustomException, MessagingException {
         Member member = memberRepository.findByEmail(email).orElse(null);
         if (member == null) {
             throw new CustomException(ErrorCodes.ERROR_14.getErrorCode(), resourceBundleMessageManager
-                    .getValueOfProperty(ErrorCodes.ERROR_14.getErrorCode(), "tr"));
+                    .getValueOfProperty(ErrorCodes.ERROR_14.getErrorCode(), locale));
         } else {
             String resetPasswordToken = UUID.randomUUID().toString();
             mailUtil.sendPasswordResetMail(email, resetPasswordToken, member.getMemberLanguageCode());
@@ -59,8 +59,8 @@ public class PasswordChangeService {
 
             MemberOperationPojo memberOperationPojo = new MemberOperationPojo();
             memberOperationPojo.setResult(ObjectUtils.getDisplayString(memberOperationPojo.getResult()) + " "
-                    + resourceBundleMessageManager.getValueOfProperty(member.getRoleOfMember().getRole() + "_memberUpdatingSuccessful",
-                    member.getMemberLanguageCode()));
+                    + resourceBundleMessageManager.getValueOfProperty("resetPassword.mainSentSuccesfully",
+                    locale));
             return memberOperationPojo;
         }
     }
